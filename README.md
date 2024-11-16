@@ -1,6 +1,6 @@
-# looksy_app
+# Looksy - Hairstyle Recommendation App
 
-A new Flutter project.
+Looksy is a mobile app that provides personalized hairstyle recommendations based on face shapes. Using Convolutional Neural Networks (CNN) for face recognition, it analyzes facial features to suggest hairstyles tailored to the user’s unique attributes.
 
 ## Getting Started
 
