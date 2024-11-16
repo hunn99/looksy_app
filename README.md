@@ -28,43 +28,43 @@ Looksy is a mobile app that provides personalized hairstyle recommendations base
 1. feat: New feature.
    - **Description**: Use this when adding a new feature to the application or project.
    - **Example**: Adding a new "Login" button.
-   - **Commit example**:
+   - **Commit example**:<br>
      [feat] Add user login button
 
 2. fix: Bug fix.
    - **Description**: Use this when fixing a bug or issue in the application or code.
    - **Example**: Fixing the login issue where the correct password was not accepted.
-   - **Commit example**:
+   - **Commit example**:<br>
      [fix] Resolve issue with login validation
      
 3. docs: Documentation changes.
    - **Description**: Use this for changes or updates to the project documentation, such as README files or user instructions.
    - **Example**: Adding new instructions on how to install the project.
-   - **Commit example**:
+   - **Commit example**:<br>
      [docs] Update installation instructions in README
      
 4. style: Formatting, no logic change.
    - **Description**: Use this for changes that only affect the formatting or layout of the code (e.g., indentation or spaces) but do not affect the application’s logic.
    - **Example**: Adding spaces or organizing the code for better readability.
-   - **Commit example**:
+   - **Commit example**:<br>
      [style] Fix indentation in main.dart
    
 5. refactor: Code refactoring.
    - **Description**: Use this when changing the structure of the code to make it cleaner or more efficient, but without adding new features or fixing bugs.
    - **Example**: Breaking a large function into smaller functions to improve readability and maintainability.
-   - **Commit example**:
+   - **Commit example**:<br>
      [refactor] Split large function into smaller ones
    
 6. test: Adding or fixing tests.
    - **Description**: Use this when adding, modifying, or fixing test cases in the code.
    - **Example**: Adding unit tests for a new function or fixing broken tests.
-   - **Commit example**:
+   - **Commit example**:<br>
      [test] Add unit tests for user authentication
      
 7. chore: Maintenance tasks.
    - **Description**: Use this for maintenance or housekeeping tasks that don't affect the features or logic of the application, such as updating dependencies or cleaning up temporary files.
    - **Example**: Removing unused files or updating external libraries.
-   - **Commit example**:
+   - **Commit example**:<br>
      [chore] Update dependencies to latest versions
 
 ## Getting Started
