@@ -6,7 +6,8 @@ const String typeFace = "sf-pro-display";
 const Map<String, FontWeight> fontWeight = {
   "Regular": FontWeight.w400,
   "Medium": FontWeight.w500,
-  "SemiBold": FontWeight.w600
+  "SemiBold": FontWeight.w600,
+  "Bold": FontWeight.w700
 };
 
 TextStyle heading1 = TextStyle(
@@ -80,7 +81,7 @@ TextStyle bodyBlack2 = TextStyle(
 TextStyle bodyBlack3 = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme[300],
-  fontWeight: fontWeight["Medium"],
+  fontWeight: fontWeight["Bold"],
   fontSize: 12,
 );
 
