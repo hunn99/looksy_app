@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/buttons/button.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -14,7 +13,7 @@ class OnboardingPage extends StatelessWidget {
             child: Stack(
           children: [
             Image.asset(
-              'assets/images/Foto.png',
+              'assets/images/Foto_onboarding.png',
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               fit: BoxFit.cover,
@@ -33,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'assets/images/Logo_white.png',
+                    'assets/logos/Logo_white.png',
                     height: 40,
                   ),
                   Column(children: [
@@ -48,14 +47,12 @@ class OnboardingPage extends StatelessWidget {
                     const SizedBox(
                       height: 32,
                     ),
-                    Button(
+                    LargeFillButtonWhite(
                       label: 'Get Started',
-                      onTap: () {
+                      onPressed: () {
                         context.push('/register');
                       },
                       isDisabled: false,
-                      colorBackground: Colors.white,
-                      colorText: neutralTheme,
                     ),
                   ])
                 ],
