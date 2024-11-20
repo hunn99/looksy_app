@@ -51,7 +51,7 @@ const MaterialColor greenTheme = MaterialColor(
   },
 );
 
-const MaterialColor orangeTheme = MaterialColor(
+const MaterialColor yellowTheme = MaterialColor(
   0xFFC4631B,
   <int, Color>{
     50: Color(0xFFFDF8ED),
