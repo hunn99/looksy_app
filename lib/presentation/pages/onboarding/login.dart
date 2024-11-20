@@ -1,9 +1,11 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:looksy_app/presentation/pages/home/homepage.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/buttons/button.dart';
-import 'package:looksy_app/presentation/services/auth_services.dart';
+import 'package:looksy_app/presentation/widgets/form/text_field.dart';
+// import 'package:looksy_app/presentation/services/auth_services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _passwordFocusNode = FocusNode();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthServices _authServices = AuthServices(); // Inisialisasi AuthServices
+  // final AuthServices _authServices = AuthServices(); // Inisialisasi AuthServices
   bool _isLoading = false; // Untuk mengatur loading state
 
   void _togglePasswordVisibility() {
@@ -52,20 +54,20 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      final isLoggedIn = await _authServices.login(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+      // final isLoggedIn = await _authServices.login(
+      //   email: _emailController.text,
+      //   password: _passwordController.text,
+      // );
 
-      if (isLoggedIn) {
-        // Jika login berhasil, arahkan ke halaman home
-        context.go('/home');
-      } else {
-        // Jika login gagal, tampilkan pesan error
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Email atau password salah')),
-        );
-      }
+      // if (isLoggedIn) {
+      //   // Jika login berhasil, arahkan ke halaman home
+      //   context.go('/home');
+      // } else {
+      //   // Jika login gagal, tampilkan pesan error
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('Email atau password salah')),
+      //   );
+      // }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Terjadi kesalahan: $e')),
@@ -90,141 +92,103 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: GestureDetector(
-          onTap: _unfocus,
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: _unfocus,
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(24),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 24),
-                  Image.asset(
-                    'assets/images/Logo_black.png',
-                    height: 40,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Welcome back to Looksy!',
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: Color(0xFF1b1b1b),
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -2,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Ready to find your next great look? Log in and explore new styles just for you!',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: neutralTheme[300],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  Text('Email',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      )),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _emailController,
-                    style: const TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 16,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 24),
+                      Image.asset(
+                        'assets/logos/Logo_black.png',
+                        height: 40,
                       ),
-                      hintText: 'Enter your Email',
-                      hintStyle: const TextStyle(
-                          color: Color(0xFFD1D1D1), fontSize: 16),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(color: neutralTheme[100]!),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: const BorderSide(color: neutralTheme),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text('Password',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      )),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _passwordController,
-                    style: const TextStyle(fontSize: 16),
-                    focusNode: _passwordFocusNode,
-                    obscureText: !_isPasswordVisible,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 16,
-                      ),
-                      hintText: 'Enter your Password',
-                      hintStyle: const TextStyle(
-                          color: Color(0xFFD1D1D1), fontSize: 16),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: const BorderSide(color: Color(0xFFE7E7E7)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: const BorderSide(color: Color(0xFF1b1b1b)),
-                      ),
-                      suffixIcon: GestureDetector(
-                        onTap: _togglePasswordVisibility,
-                        child: Icon(
-                          _isPasswordVisible
-                              ? IconsaxOutline.eye
-                              : IconsaxOutline.eye_slash,
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Welcome back to Looksy!',
+                        style: TextStyle(
+                          fontSize: 32,
+                          color: Color(0xFF1b1b1b),
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -2,
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 200),
-                  Button(
-                    label: _isLoading ? 'Loading...' : 'Login',
-                    onTap: _isLoading ? null : _handleLogin,
-                    colorText: Colors.white,
-                    colorBackground: neutralTheme,
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account? ",
+                      const SizedBox(height: 8),
+                      Text(
+                        'Ready to find your next great look? Log in and explore new styles just for you!',
                         style: TextStyle(
                           fontSize: 16,
-                          color: neutralTheme,
+                          color: neutralTheme[300],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          context.push('/register');
-                        },
-                        child: const Text(
-                          'Sign up',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: neutralTheme,
-                          ),
-                        ),
+                      const SizedBox(height: 32),
+                      CustomTextField(
+                        label: 'Email',
+                        hintText: 'Enter your Email',
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      const SizedBox(height: 12),
+                      PasswordField(
+                        controller: _passwordController,
+                        focusNode: _passwordFocusNode,
+                        label: 'Password',
+                        hintText: 'Enter your Password',
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
                 ],
               ),
             ),
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LargeFillButton(
+                label: 'Login',
+                onPressed: () {
+                  const HomePage();
+                },
+                isDisabled: false,
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account? ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: neutralTheme,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.push('/register');
+                    },
+                    child: const Text(
+                      'Sign up',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: neutralTheme,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
