@@ -49,7 +49,7 @@ class HowToSeeHairCareTipsPage extends StatelessWidget {
               ),
               Image.asset(
                 'assets/images/Tips.jpg',
-                scale: 2.0,
+                scale: 1.2,
               ),
               SizedBox(height: 16),
 
@@ -67,7 +67,7 @@ class HowToSeeHairCareTipsPage extends StatelessWidget {
               ),
               Image.asset(
                 'assets/images/TipsDetail.jpg',
-                scale: 2.0,
+                scale: 1.2,
               ),
               SizedBox(height: 16),
 

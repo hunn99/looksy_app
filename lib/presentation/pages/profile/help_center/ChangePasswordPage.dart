@@ -48,7 +48,7 @@ class HowToChangePasswordPage extends StatelessWidget {
                 style: bodyTextStyle,
               ),
               Image.asset(
-                'assets/images/profile.png',
+                'assets/images/profile_page1.png',
                 scale: 1.1,
               ),
               SizedBox(height: 16),
