@@ -64,26 +64,44 @@ TextStyle bodyGrey2 = TextStyle(
   fontSize: 14,
 );
 
+TextStyle bodyGrey3 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme[200],
+  fontWeight: fontWeight["Medium"],
+  fontSize: 16,
+);
+
 TextStyle bodyBlack1 = TextStyle(
   fontFamily: typeFace,
-  color: neutralTheme[300],
+  color: neutralTheme,
   fontWeight: fontWeight["Medium"],
   fontSize: 16,
 );
 
 TextStyle bodyBlack2 = TextStyle(
   fontFamily: typeFace,
-  color: neutralTheme[300],
+  color: neutralTheme,
   fontWeight: fontWeight["Medium"],
   fontSize: 14,
 );
 
 TextStyle bodyBlack3 = TextStyle(
   fontFamily: typeFace,
-  color: neutralTheme[300],
+  color: neutralTheme,
   fontWeight: fontWeight["Bold"],
   fontSize: 12,
 );
 
+TextStyle bodyBlack4 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme,
+  fontWeight: fontWeight["Medium"],
+  fontSize: 12,
+);
 
-
+TextStyle bodyBlack5 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme,
+  fontWeight: fontWeight["Bold"],
+  fontSize: 14,
+);
