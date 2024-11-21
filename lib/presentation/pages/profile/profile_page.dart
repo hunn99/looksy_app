@@ -5,7 +5,7 @@ import 'package:looksy_app/presentation/pages/profile/change_password.dart';
 import 'package:looksy_app/presentation/pages/profile/edit_page.dart';
 import 'package:looksy_app/presentation/pages/profile/help_center.dart';
 import 'package:looksy_app/presentation/pages/profile/save_page.dart';
-import 'package:looksy_app/presentation/services/auth_services.dart'; 
+// import 'package:looksy_app/presentation/services/auth_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
@@ -143,17 +143,13 @@ class ProfilePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: ProfileOption(
-                      icon: const Icon(IconsaxOutline.logout, size: 24, color: redTheme),
+                      icon: const Icon(IconsaxOutline.logout,
+                          size: 24, color: redTheme),
                       title: 'Logout',
                       titleColor: redTheme,
                       iconColor: redTheme,
                       onTap: () async {
-                        await AuthServices().logout(); // Panggil logout
-                        context.go('/login');
-                        // Navigator.of(context).pushAndRemoveUntil(
-                        //   MaterialPageRoute(builder: (context) => const OnboardingPage()),
-                        //   (Route<dynamic> route) => false, // Menghapus semua route yang ada
-                        // );
+                        context.push('/login');
                       },
                       hasDivider: false,
                       showArrowIcon: false,
