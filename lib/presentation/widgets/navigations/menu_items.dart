@@ -4,21 +4,25 @@ import 'package:looksy_app/presentation/utils/text.dart';
 
 class MenuItem extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
   final int index;
-  final selectedPageIndex;
+  final int selectedPageIndex;
   final Function(int) onTap;
 
   const MenuItem(
       {super.key,
       required this.label,
-      required this.icon,
+      required this.selectedIcon,
+      required this.unselectedIcon,
       required this.index,
       required this.selectedPageIndex,
       required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final bool isSelected = selectedPageIndex == index;
+
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -29,17 +33,12 @@ class MenuItem extends StatelessWidget {
           child: Column(
             children: [
               Icon(
-                icon,
+                isSelected ? selectedIcon : unselectedIcon,
                 size: 24,
                 color: neutralTheme,
               ),
               const SizedBox(height: 4),
-              Text(
-                label,
-                style: selectedPageIndex == index
-                    ? bodyBlack3
-                    : bodyBlack3.copyWith(fontWeight: fontWeight["Medium"]),
-              ),
+              Text(label, style: isSelected ? bodyBlack3 : bodyBlack4),
             ],
           ),
         ),
