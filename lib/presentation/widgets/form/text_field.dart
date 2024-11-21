@@ -11,26 +11,20 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.hintText,
     required this.controller,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        Text(label, style: bodyBlack2),
         const SizedBox(height: 8),
         TextField(
           controller: controller,
@@ -43,11 +37,7 @@ class CustomTextField extends StatelessWidget {
               horizontal: 16,
             ),
             hintText: hintText,
-            hintStyle: TextStyle(
-              color: neutralTheme[200]!,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            hintStyle: bodyGrey3,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(color: neutralTheme[100]!),
@@ -70,12 +60,12 @@ class PasswordField extends StatefulWidget {
   final FocusNode? focusNode;
 
   const PasswordField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     required this.hintText,
     this.focusNode,
-  }) : super(key: key);
+  });
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -95,29 +85,19 @@ class _PasswordFieldState extends State<PasswordField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        Text(widget.label, style: bodyBlack2),
         const SizedBox(height: 8),
         TextField(
           controller: widget.controller,
           focusNode: widget.focusNode,
           obscureText: !_isPasswordVisible,
-          style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(
               vertical: 12,
               horizontal: 16,
             ),
             hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: neutralTheme[200]!,
-              fontSize: 16,
-            ),
+            hintStyle: bodyGrey3,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(color: neutralTheme[100]!),
@@ -132,7 +112,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 _isPasswordVisible
                     ? IconsaxOutline.eye
                     : IconsaxOutline.eye_slash,
-                color: neutralTheme[200],
+                color: neutralTheme,
               ),
             ),
           ),
