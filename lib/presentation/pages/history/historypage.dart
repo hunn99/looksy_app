@@ -1,9 +1,58 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
+import 'package:looksy_app/presentation/widgets/card/card_history.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
+
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  // Daftar orderan
+  List<Map<String, dynamic>> orders = [
+    {
+      'services': 'Premium Haircut, Hair Color',
+      'date': '15 Sep 2023',
+      'time': '06:30 AM',
+      'price': 'Rp. 175.000',
+      'status': 'On Process',
+      'cancelable': true,
+    },
+    {
+      'services': 'Premium Haircut, Hair Color',
+      'date': '15 Sep 2023',
+      'time': '06:30 AM',
+      'price': 'Rp. 175.000',
+      'status': 'On Process',
+      'cancelable': true,
+    },
+    {
+      'services': 'Premium Haircut, Hair Color, Hair Color, Shave',
+      'date': '12 Sep 2023',
+      'time': '06:30 AM',
+      'price': 'Rp. 175.000',
+      'status': 'Canceled',
+      'cancelable': true,
+    },
+    {
+      'services': 'Premium Haircut',
+      'date': '12 Aug 2023',
+      'time': '07:00 AM',
+      'price': 'Rp. 40.000',
+      'status': 'Finished',
+      'cancelable': true,
+    },
+  ];
+
+  // Fungsi untuk mengubah status menjadi 'Canceled'
+  void cancelOrder(int index) {
+    setState(() {
+      orders[index]['status'] = 'Canceled';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,121 +63,79 @@ class HistoryPage extends StatelessWidget {
           title: const Text(
             'History',
             style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           backgroundColor: neutralTheme,
           toolbarHeight: 80,
         ),
-        body: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              HistoryCard(
-                title: 'Premium Haircut, Hair Co...',
-                date: '15 Sep 2023',
-                time: '06:30 AM',
-                price: 'Rp. 175.000',
-                status: 'On Process',
-                statusColor: yellowTheme,
+        body: orders.isEmpty
+            ? NoOrdersFound()
+            : SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: orders
+                        .asMap()
+                        .entries
+                        .map(
+                          (entry) => Column(
+                            children: [
+                              HistoryCard(
+                                services: entry.value['services'],
+                                date: entry.value['date'],
+                                time: entry.value['time'],
+                                price: entry.value['price'],
+                                status: entry.value['status'],
+                                cancelable: entry.value['cancelable'],
+                                onCancel: () => cancelOrder(entry.key),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
-              SizedBox(height: 12),
-              HistoryCard(
-                title: 'Premium Haircut, Hair Co...',
-                date: '12 Sep 2023',
-                time: '06:30 AM',
-                price: 'Rp. 175.000',
-                status: 'Canceled',
-                statusColor: redTheme,
-              ),
-              SizedBox(height: 12),
-              HistoryCard(
-                title: 'Premium Haircut',
-                date: '12 Aug 2023',
-                time: '07:00 AM',
-                price: 'Rp. 40.000',
-                status: 'Finished',
-                statusColor: greenTheme,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
 }
 
-class HistoryCard extends StatelessWidget {
-  final String title;
-  final String date;
-  final String time;
-  final String price;
-  final String status;
-  final Color statusColor;
-
-  const HistoryCard({
-    Key? key,
-    required this.title,
-    required this.date,
-    required this.time,
-    required this.price,
-    required this.status,
-    required this.statusColor,
-  }) : super(key: key);
+class NoOrdersFound extends StatelessWidget {
+  const NoOrdersFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: neutralTheme[100]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              Icon(
+                IconsaxBold.clipboard_text,
+                size: 80,
+                color: neutralTheme[200]!,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'No Orders Found',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: neutralTheme,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: statusColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Text(
-                  status,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Divider(
-            color: neutralTheme[100]!,
-            thickness: 1,
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              const Icon(IconsaxBold.calendar, size: 20, color: neutralTheme),
-              const SizedBox(width: 8),
+              const SizedBox(height: 8),
               Text(
-                date,
+                'There Are No Ongoing Orders At The Moment',
                 style: TextStyle(
                   fontSize: 14,
                   color: neutralTheme[300]!,
@@ -136,56 +143,7 @@ class HistoryCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              const Icon(IconsaxBold.clock, size: 20, color: neutralTheme),
-              const SizedBox(width: 8),
-              Text(
-                time,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: neutralTheme[300]!,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              const Icon(IconsaxBold.dollar_circle,
-                  size: 20, color: neutralTheme),
-              const SizedBox(width: 8),
-              Text(
-                price,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: neutralTheme[300]!,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          if (status == 'On Process')
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: redTheme,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Center(
-                child: Text(
-                  'Canceled',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
