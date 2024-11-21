@@ -40,7 +40,7 @@ class BookBarbershopPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: neutralTheme),
               ),
               Image.asset(
-                'assets/images/ScheduleYourShave.jpg',
+                'assets/images/ScheduleYourShave.png',
                 scale: 1.2,
               ),
 

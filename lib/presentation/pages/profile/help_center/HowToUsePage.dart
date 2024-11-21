@@ -57,7 +57,7 @@ class HowToUseAppPage extends StatelessWidget {
               ),
 
               Image.asset(
-                'assets/images/ScheduleYourShave.jpg',
+                'assets/images/ScheduleYourShave.png',
                 scale: 1.2,
               ),
               SizedBox(height: 16),
@@ -70,7 +70,7 @@ class HowToUseAppPage extends StatelessWidget {
 
               Image.asset(
                 'assets/images/Tips.jpg',
-                scale: 2.0,
+                scale: 1.2,
               ),
               SizedBox(height: 16),
 
@@ -81,7 +81,7 @@ class HowToUseAppPage extends StatelessWidget {
               ),
 
               Image.asset(
-                'assets/images/profile.png',
+                'assets/images/profile_page1.png',
                 scale: 1.2,
               ),
             ],
