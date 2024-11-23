@@ -12,24 +12,16 @@ sealed class AuthState extends Equatable {
 final class AuthInitial extends AuthState {}
 
 // State ketika proses otentikasi sedang berlangsung (loading)
-final class AuthLoading extends AuthState {
-  final bool isLoading;
-
-  const AuthLoading({required this.isLoading});
-
-  @override
-  List<Object?> get props => [isLoading];
-}
+final class AuthLoading extends AuthState {}
 
 // State ketika registrasi atau login berhasil
 final class AuthSuccess extends AuthState {
-  final String token;
-  final String username;
+  final User user;
 
-  const AuthSuccess({required this.token, required this.username});
+  const AuthSuccess({required this.user});
 
   @override
-  List<Object?> get props => [token, username];
+  List<Object?> get props => [user];
 }
 
 // State ketika registrasi atau login gagal
@@ -43,4 +35,9 @@ final class AuthFailed extends AuthState {
 }
 
 // State khusus untuk logout (opsional jika diperlukan)
-final class AuthLogout extends AuthState {}
+final class AuthLogout extends AuthState {
+  const AuthLogout();
+
+  @override
+  List<Object?> get props => [];
+}

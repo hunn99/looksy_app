@@ -10,29 +10,33 @@ sealed class AuthEvent extends Equatable {
 
 // Event untuk proses login
 final class AuthLoginEvent extends AuthEvent {
-  final String email;
-  final String password;
+  final LoginDto params;
 
-  const AuthLoginEvent({required this.email, required this.password});
+  const AuthLoginEvent({
+    required this.params,
+  });
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [
+        params.email,
+        params.password,
+      ];
 }
 
 // Event untuk proses registrasi
 final class AuthRegisterEvent extends AuthEvent {
-  final String email;
-  final String username;
-  final String password;
+  final RegisterDto params;
 
   const AuthRegisterEvent({
-    required this.email,
-    required this.username,
-    required this.password,
+    required this.params,
   });
 
   @override
-  List<Object?> get props => [email, username, password];
+  List<Object?> get props => [
+        params.email,
+        params.username,
+        params.password,
+      ];
 }
 
 // Event untuk proses logout
