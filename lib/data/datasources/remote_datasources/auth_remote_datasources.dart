@@ -1,5 +1,9 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:dartz/dartz.dart';
+import 'package:http/http.dart' as http;
+import 'package:looksy_app/data/dto/requests/login_dto.dart';
+import 'package:looksy_app/data/dto/requests/register_dto.dart';
+import 'package:looksy_app/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
@@ -7,88 +11,80 @@ class AuthServices {
       'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
-  Future<void> signUp({
-    required String username,
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<String, User>> register(RegisterDto params) async {
     final url = Uri.parse('$baseUrl/register');
 
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': username,
-          'email': email,
-          'password': password,
-        }),
+        body: jsonEncode(params.toJson()),
       );
-      if (response.statusCode != 201) {
-        final responseData = jsonDecode(response.body);
-        throw Exception(responseData['error'] ?? 'Unknown error');
+      // print(response.statusCode);
+      // print(response.body);
+      if (response.statusCode == 201) {
+        // print('berhasil');
+        final prefs = await SharedPreferences.getInstance();
+
+        // Simpan username dan token
+        await prefs.setString('auth_token', jsonDecode(response.body)['token']);
+        return Right(User.fromJson(jsonDecode(response.body)['user']));
+      } else {
+        return Left(jsonDecode(response.body)['error']);
       }
     } catch (e) {
-      throw Exception('Failed to register: $e');
+      return Left('Error during register: $e');
     }
   }
 
   // Fungsi untuk login pengguna
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<String, User>> login(LoginDto params) async {
     final url = Uri.parse('$baseUrl/login');
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email, 'password': password}),
+        body: jsonEncode(params.toJson()),
       );
 
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
         final prefs = await SharedPreferences.getInstance();
 
         // Simpan username dan token
-        await prefs.setString('username', responseData['user']['username']);
-        await prefs.setString('auth_token', responseData['token']);
+        await prefs.setString('auth_token', jsonDecode(response.body)['token']);
 
-        return true;
+        return Right(User.fromJson(jsonDecode(response.body)['user']));
       } else {
-        final responseData = jsonDecode(response.body);
-        throw Exception(responseData['error'] ?? 'Login failed.');
+        return Left(jsonDecode(response.body)['error']);
       }
     } catch (e) {
-      throw Exception('Error during login: $e');
+      return Left('Error during login: $e');
     }
   }
 
   // Fungsi untuk logout pengguna
-  Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('auth_token');
-    if (token != null) {
+  Future<Either<String, User>> logout() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
       final url = Uri.parse('$baseUrl/logout');
-      try {
-        final response = await http.post(
-          url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        );
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-        if (response.statusCode != 200) {
-          throw Exception('Logout failed.');
-        }
-
-        await prefs.clear();
-      } catch (e) {
-        throw Exception('Error during logout: $e');
+      if (response.statusCode == 200) {
+        // Hapus token dari SharedPreferences
+        await prefs.remove('auth_token');
+        return Right(User.fromJson(jsonDecode(response.body)['user']));
+      } else {
+        return Left(jsonDecode(response.body)['error']);
       }
-    } else {
-      throw Exception('No token found for logout.');
+    } catch (e) {
+      return Left('Error during logout: $e');
     }
   }
 }

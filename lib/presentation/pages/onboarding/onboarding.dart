@@ -50,7 +50,7 @@ class OnboardingPage extends StatelessWidget {
                     LargeFillButtonWhite(
                       label: 'Get Started',
                       onPressed: () {
-                        context.push('/register');
+                        context.go('/register');
                       },
                       isDisabled: false,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:looksy_app/data/dto/requests/login_dto.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
@@ -16,6 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  // Define GlobalKey for Form
+  final _formKey = GlobalKey<FormState>();
+
   // Define TextEditingControllers
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -47,10 +51,13 @@ class LoginPageState extends State<LoginPage> {
           }
 
           if (state is AuthSuccess) {
-            context.push('/home');
+            Navigator.of(context, rootNavigator: true).pop();
+            context.go('/home');
           }
 
           if (state is AuthFailed) {
+            Navigator.of(context, rootNavigator: true).pop(); // Menutup dialog
+
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content: Text('Failed to sign up: ${state.errorMessage}')),
@@ -66,44 +73,48 @@ class LoginPageState extends State<LoginPage> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 24),
-                      Image.asset(
-                        'assets/logos/Logo_black.png',
-                        height: 40,
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Welcome back to Looksy!',
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: Color(0xFF1b1b1b),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -2,
+                  child: Form(
+                    key: _formKey, // Attach Form Key
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 24),
+                        Image.asset(
+                          'assets/logos/Logo_black.png',
+                          height: 40,
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Ready to find your next great look? Log in and explore new styles just for you!',
-                        style: bodyGrey1,
-                      ),
-                      const SizedBox(height: 32),
-                      CustomTextField(
-                        label: 'Email',
-                        hintText: 'Enter your email',
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 12),
-                      PasswordField(
-                        controller: _passwordController,
-                        label: 'Password',
-                        hintText: 'Enter your password',
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Welcome back to Looksy!',
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: neutralTheme,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -2,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Ready to find your next great look? Log in and explore new styles just for you!',
+                          style: bodyGrey1,
+                        ),
+                        const SizedBox(height: 32),
+                        CustomTextField(
+                          label: 'Email',
+                          hintText: 'Enter your email',
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          isEmail: true, // Aktifkan validasi email
+                        ),
+                        const SizedBox(height: 12),
+                        PasswordField(
+                          controller: _passwordController,
+                          label: 'Password',
+                          hintText: 'Enter your password',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -116,12 +127,15 @@ class LoginPageState extends State<LoginPage> {
                   LargeFillButton(
                     label: 'Login',
                     onPressed: () {
-                      context.read<AuthBloc>().add(AuthLoginEvent(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          ));
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(AuthLoginEvent(
+                              params: LoginDto(
+                                  email: _emailController.text,
+                                  password: _passwordController.text),
+                            ));
+                      }
                     },
-                    isDisabled: state is AuthLoading && state.isLoading,
+                    isDisabled: state is AuthLoading,
                   ),
                   const SizedBox(height: 12),
                   Row(

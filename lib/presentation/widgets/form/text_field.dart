@@ -3,12 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
+// Daftar domain email yang valid
+const List<String> validDomains = [
+  'gmail.com',
+  'yahoo.com',
+  'outlook.com',
+  'hotmail.com',
+  'icloud.com',
+  'aol.com',
+];
+
 class CustomTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final TextEditingController controller;
   final bool isPassword;
   final TextInputType keyboardType;
+  final bool isEmail;
 
   const CustomTextField({
     super.key,
@@ -17,7 +28,29 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
+    this.isEmail = false, // Tambahkan flag untuk validasi email
   });
+
+  String? _validate(String? value) {
+    if (value == null || value.isEmpty) {
+      return '$label is required';
+    }
+
+    // Jika isEmail = true, lakukan validasi email
+    if (isEmail) {
+      if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+          .hasMatch(value)) {
+        return 'Please enter a valid email address';
+      }
+
+      final String emailDomain = value.split('@').last;
+      if (!validDomains.contains(emailDomain)) {
+        return 'Please use a trusted email domain';
+      }
+    }
+
+    return null; // Validasi lolos
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +59,7 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(label, style: bodyBlack2),
         const SizedBox(height: 8),
-        TextField(
+        TextFormField(
           controller: controller,
           obscureText: isPassword,
           keyboardType: keyboardType,
@@ -47,6 +80,7 @@ class CustomTextField extends StatelessWidget {
               borderSide: const BorderSide(color: neutralTheme),
             ),
           ),
+          validator: _validate, // Gunakan fungsi validasi internal
         ),
       ],
     );
@@ -80,6 +114,16 @@ class _PasswordFieldState extends State<PasswordField> {
     });
   }
 
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    return null; // Validasi lolos
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -87,7 +131,7 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Text(widget.label, style: bodyBlack2),
         const SizedBox(height: 8),
-        TextField(
+        TextFormField(
           controller: widget.controller,
           focusNode: widget.focusNode,
           obscureText: !_isPasswordVisible,
@@ -116,6 +160,7 @@ class _PasswordFieldState extends State<PasswordField> {
               ),
             ),
           ),
+          validator: _validatePassword, // Validasi internal
         ),
       ],
     );
