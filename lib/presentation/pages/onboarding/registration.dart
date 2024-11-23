@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:looksy_app/data/dto/requests/register_dto.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
@@ -15,6 +16,9 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class RegistrationPageState extends State<RegistrationPage> {
+  // Define GlobalKey for Form
+  final _formKey = GlobalKey<FormState>();
+
   // Define TextEditingControllers
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -49,10 +53,13 @@ class RegistrationPageState extends State<RegistrationPage> {
           }
 
           if (state is AuthSuccess) {
+            Navigator.of(context, rootNavigator: true).pop(); // Menutup dialog
             context.push('/home');
           }
 
           if (state is AuthFailed) {
+            Navigator.of(context, rootNavigator: true).pop(); // Menutup dialog
+
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content: Text('Failed to sign up: ${state.errorMessage}')),
@@ -68,51 +75,59 @@ class RegistrationPageState extends State<RegistrationPage> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 24),
-                      Image.asset(
-                        'assets/logos/Logo_black.png',
-                        height: 40,
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Welcome to Looksy!',
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: neutralTheme,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -2,
+                  child: Form(
+                    key: _formKey, // Attach Form Key
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 24),
+                        Image.asset(
+                          'assets/logos/Logo_black.png',
+                          height: 40,
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Discover your perfect hairstyle tailored to your unique face shape. Let\'s get started on your style journey!',
-                        style: bodyGrey1,
-                      ),
-                      const SizedBox(height: 32),
-                      CustomTextField(
-                        label: 'Email',
-                        hintText: 'Enter your email',
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 12),
-                      CustomTextField(
-                        label: 'Username',
-                        hintText: 'Enter your username',
-                        controller: _usernameController,
-                        keyboardType: TextInputType.text,
-                      ),
-                      const SizedBox(height: 12),
-                      PasswordField(
-                        controller: _passwordController,
-                        label: 'Password',
-                        hintText: 'Enter your password',
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Welcome to Looksy!',
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: neutralTheme,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -2,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Discover your perfect hairstyle tailored to your unique face shape. Let\'s get started on your style journey!',
+                          style: bodyGrey1,
+                        ),
+                        const SizedBox(height: 32),
+                        // Email Field
+                        CustomTextField(
+                          label: 'Email',
+                          hintText: 'Enter your email',
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          isEmail: true, // Aktifkan validasi email
+                        ),
+
+                        const SizedBox(height: 12),
+                        // Username Field
+                        CustomTextField(
+                          label: 'Username',
+                          hintText: 'Enter your username',
+                          controller: _usernameController,
+                          keyboardType: TextInputType.text,
+                        ),
+                        const SizedBox(height: 12),
+                        // Password Field
+                        PasswordField(
+                          controller: _passwordController,
+                          label: 'Password',
+                          hintText: 'Enter your password',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -125,13 +140,18 @@ class RegistrationPageState extends State<RegistrationPage> {
                   LargeFillButton(
                     label: 'Sign Up',
                     onPressed: () {
-                      context.read<AuthBloc>().add(AuthRegisterEvent(
-                            email: _emailController.text,
-                            username: _usernameController.text,
-                            password: _passwordController.text,
-                          ));
+                      if (_formKey.currentState!.validate()) {
+                        // Only submit if form is valid
+                        context.read<AuthBloc>().add(AuthRegisterEvent(
+                              params: RegisterDto(
+                                email: _emailController.text,
+                                username: _usernameController.text,
+                                password: _passwordController.text,
+                              ),
+                            ));
+                      }
                     },
-                    isDisabled: state is AuthLoading && state.isLoading,
+                    isDisabled: state is AuthLoading,
                   ),
                   const SizedBox(height: 12),
                   Row(
