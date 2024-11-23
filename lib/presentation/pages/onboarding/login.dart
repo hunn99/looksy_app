@@ -51,7 +51,7 @@ class LoginPageState extends State<LoginPage> {
           }
 
           if (state is AuthSuccess) {
-            Navigator.of(context, rootNavigator: true).pop();
+            // Navigator.of(context, rootNavigator: true).pop();
             context.go('/home');
           }
 
