@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   final String baseUrl =
-      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
+      'http://192.168.18.94:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {
@@ -20,15 +20,16 @@ class AuthServices {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(params.toJson()),
       );
-      // print(response.statusCode);
-      // print(response.body);
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 201) {
         // print('berhasil');
         final prefs = await SharedPreferences.getInstance();
 
         // Simpan username dan token
-        await prefs.setString('auth_token', jsonDecode(response.body)['token']);
-        return Right(User.fromJson(jsonDecode(response.body)['user']));
+        await prefs.setString(
+            'auth_token', jsonDecode(response.body)['data']['token']);
+        return Right(User.fromJson(jsonDecode(response.body)['data']['user']));
       } else {
         return Left(jsonDecode(response.body)['error']);
       }

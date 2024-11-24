@@ -53,7 +53,7 @@ class RegistrationPageState extends State<RegistrationPage> {
           }
 
           if (state is AuthSuccess) {
-            Navigator.of(context, rootNavigator: true).pop(); // Menutup dialog
+            // Navigator.of(context, rootNavigator: true).pop(); // Menutup dialog
             context.push('/home');
           }
 

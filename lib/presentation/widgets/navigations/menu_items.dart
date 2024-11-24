@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 
 class MenuItem extends StatelessWidget {
@@ -25,22 +24,17 @@ class MenuItem extends StatelessWidget {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          onTap(index);
-        },
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              Icon(
-                isSelected ? selectedIcon : unselectedIcon,
-                size: 24,
-                color: neutralTheme,
-              ),
-              const SizedBox(height: 4),
-              Text(label, style: isSelected ? bodyBlack3 : bodyBlack4),
-            ],
-          ),
+        onTap: () => onTap(index),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isSelected ? selectedIcon : unselectedIcon,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(label, style: isSelected ? bodyBlack3 : bodyBlack4),
+          ],
         ),
       ),
     );
