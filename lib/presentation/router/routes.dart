@@ -4,7 +4,6 @@ import 'package:looksy_app/presentation/pages/onboarding/login.dart';
 import 'package:looksy_app/presentation/pages/onboarding/onboarding.dart';
 import 'package:looksy_app/presentation/pages/onboarding/registration.dart';
 
-
 final GoRouter _router = GoRouter(
   routes: [
     GoRoute(
@@ -34,9 +33,7 @@ final GoRouter _router = GoRouter(
             path: 'tips',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(
-                selectedIndex: 1,
-              ),
+              child: NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -47,9 +44,7 @@ final GoRouter _router = GoRouter(
             path: 'scan',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(
-                selectedIndex: 2,
-              ),
+              child: NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -60,9 +55,7 @@ final GoRouter _router = GoRouter(
             path: 'history',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(
-                selectedIndex: 3,
-              ),
+              child: NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -73,9 +66,7 @@ final GoRouter _router = GoRouter(
             path: 'profile',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(
-                selectedIndex: 4,
-              ),
+              child: NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
