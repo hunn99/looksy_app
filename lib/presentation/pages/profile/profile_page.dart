@@ -8,6 +8,7 @@ import 'package:looksy_app/presentation/pages/profile/save_page.dart';
 // import 'package:looksy_app/presentation/services/auth_services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
+import 'package:looksy_app/presentation/widgets/modals/dialog.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -148,8 +149,11 @@ class ProfilePage extends StatelessWidget {
                       title: 'Logout',
                       titleColor: redTheme,
                       iconColor: redTheme,
-                      onTap: () async {
-                        context.push('/login');
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const LogoutDialog(),
+                        );
                       },
                       hasDivider: false,
                       showArrowIcon: false,
