@@ -34,12 +34,20 @@ TextStyle heading2White = TextStyle(
   letterSpacing: -2,
 );
 
-TextStyle heading3 = TextStyle(
+TextStyle heading3Black = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme,
   fontWeight: fontWeight["Medium"],
+  fontSize: 24,
+  letterSpacing: 0,
+);
+
+TextStyle heading4Black = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme,
+  fontWeight: fontWeight["SemiBold"],
   fontSize: 20,
-  letterSpacing: -2,
+  letterSpacing: 0,
 );
 
 TextStyle heading4 = TextStyle(
@@ -74,6 +82,12 @@ TextStyle bodyGrey3 = TextStyle(
 TextStyle bodyBlack1 = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme,
+  fontWeight: fontWeight["Medium"],
+  fontSize: 16,
+);
+TextStyle bodyWhite1 = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
   fontWeight: fontWeight["Medium"],
   fontSize: 16,
 );
