@@ -1,8 +1,10 @@
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:looksy_app/data/dto/requests/order_dto.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
+import 'package:looksy_app/presentation/pages/history/historypage.dart';
+import 'package:looksy_app/presentation/utils/methods.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/buttons/button.dart';
@@ -15,19 +17,6 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
-}
-
-bool isBarberShopOpen() {
-  final now = DateTime.now();
-  final start = TimeOfDay(hour: 9, minute: 0); // Jam buka
-  final end = TimeOfDay(hour: 21, minute: 59); // Jam tutup
-
-  // Konversi waktu ke menit sejak tengah malam
-  int nowMinutes = now.hour * 60 + now.minute;
-  int startMinutes = start.hour * 60 + start.minute;
-  int endMinutes = end.hour * 60 + end.minute;
-
-  return nowMinutes >= startMinutes && nowMinutes <= endMinutes;
 }
 
 class _HomePageState extends State<HomePage> {
@@ -186,33 +175,115 @@ class _HomePageState extends State<HomePage> {
                                 style: heading3Black,
                               ),
                               const SizedBox(height: 8),
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: neutralTheme[100]!),
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                child: Column(children: [
-                                  const DatePickerWidget(),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  const TimePickerWidget(),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  const ServiceSelectionWidget(),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  LargeFillButton(
-                                    label: 'Book Now',
-                                    onPressed: () {
-                                      context.push('/history');
-                                    },
-                                    isDisabled: false,
-                                  )
-                                ]),
+                              BlocConsumer<OrderBloc, OrderState>(
+                                listener: (context, state) {
+                                  if (state is OrderLoading) {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (_) => const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  }
+
+                                  if (state is OrderSuccess) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HistoryPage()));
+                                  }
+
+                                  if (state is OrderFailed) {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop(); // Menutup dialog
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Failed to create order: ${state.errorMessage}')),
+                                    );
+                                  }
+                                },
+                                builder: (context, state) {
+                                  final GlobalKey<DatePickerWidgetState> datePickerKey = GlobalKey();
+                                  final GlobalKey<TimePickerWidgetState> timePickerKey = GlobalKey();
+                                  final GlobalKey<ServiceSelectionWidgetState>serviceSelectionKey = GlobalKey();
+
+                                  return Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: neutralTheme[100]!),
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    child: Column(children: [
+                                      DatePickerWidget(key: datePickerKey),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      TimePickerWidget(key: timePickerKey),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      ServiceSelectionWidget(
+                                          key: serviceSelectionKey),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      LargeFillButton(
+                                        label: 'Book Now',
+                                        onPressed: () {
+                                          final selectedDate = datePickerKey
+                                              .currentState?.selectedDate;
+                                          final selectedTime = timePickerKey
+                                              .currentState?.selectedTime;
+                                          final pickedServices =
+                                              serviceSelectionKey
+                                                  .currentState?.pickedServices;
+                                          final totalPayment =
+                                              serviceSelectionKey
+                                                  .currentState?.totalPayment;
+
+                                          if (selectedDate == null ||
+                                              selectedTime == null ||
+                                              pickedServices == null ||
+                                              pickedServices.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text(
+                                                      'Please complete all fields')),
+                                            );
+                                            return;
+                                          }
+
+                                          final formattedDate =
+                                              '${selectedDate.day}-${selectedDate.month}-${selectedDate.year}';
+                                          final formattedTime =
+                                              selectedTime.format(context);
+                                          context.read<OrderBloc>().add(
+                                                OrderOrderEvent(
+                                                  params: OrderDto(
+                                                    date: convertDateFormat(
+                                                        formattedDate),
+                                                    time: formattedTime,
+                                                    totalPayment: totalPayment!,
+                                                    pickedServices:
+                                                        pickedServices
+                                                            .map((e) => e['id']
+                                                                as int) // Extract 'id' from each map
+                                                            .toList(),
+                                                  ),
+                                                ),
+                                              );
+                                        },
+                                        isDisabled: false,
+                                      )
+                                    ]),
+                                  );
+                                },
                               )
                             ]),
                       ),
