@@ -2,9 +2,12 @@ import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:looksy_app/data/datasources/remote_datasources/service_remote_datasources.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
+import 'package:looksy_app/presentation/widgets/buttons/button.dart';
 
+//widget utama
 class ServiceSelectionWidget extends StatefulWidget {
   const ServiceSelectionWidget({super.key});
+
   @override
   ServiceSelectionWidgetState createState() => ServiceSelectionWidgetState();
 }
@@ -22,6 +25,7 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
     _loadServices();
   }
 
+// Mengambil data layanan dari ServiceServices menggunakan API.
   Future<void> _loadServices() async {
     try {
       final fetchedServices = await _serviceServices.fetchServices();
@@ -38,6 +42,7 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
     }
   }
 
+// Menghitung total pembayaran dari layanan yang dipilih.
   void _calculateTotalPayment() {
     setState(() {
       totalPayment = services
@@ -48,11 +53,12 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
 
   String _getPickedServicesText() {
     if (pickedServices.isEmpty) {
-      return 'Choose service';
+      return 'Choose a Service';
     }
     return pickedServices.map((service) => service["name"]).join(', ');
   }
 
+// Menampilkan dialog untuk memilih layanan.
   void _openServiceSelection(BuildContext context) {
     showDialog(
       context: context,
@@ -79,7 +85,7 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).dividerColor),
+          border: Border.all(color: neutralTheme[100]!),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Row(
@@ -99,8 +105,8 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: pickedServices.isEmpty
-                              ? Theme.of(context).hintColor
-                              : neutralTheme[300]!,
+                              ? neutralTheme[300]!
+                              : neutralTheme,
                         ),
                       ),
                     ),
@@ -116,6 +122,7 @@ class ServiceSelectionWidgetState extends State<ServiceSelectionWidget> {
   }
 }
 
+//Menampilkan daftar layanan dalam bentuk checklist.
 class ServiceSelectionDialog extends StatelessWidget {
   final List<Map<String, dynamic>> services;
   final ValueChanged<List<Map<String, dynamic>>> onSelectionChanged;
@@ -170,15 +177,11 @@ class ServiceSelectionDialog extends StatelessWidget {
                           0, (sum, item) => sum + (item["price"] as int)),
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
+                LargeFillButton(
+                  label: 'Done',
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Done'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                ),
+                  isDisabled: false,
+                )
               ],
             );
           },
@@ -188,6 +191,7 @@ class ServiceSelectionDialog extends StatelessWidget {
   }
 }
 
+//Widget untuk menampilkan setiap layanan dalam list. Memiliki nama, harga, dan checkbox untuk memilih layanan.
 class ServiceRow extends StatelessWidget {
   final Map<String, dynamic> service;
   final ValueChanged<bool> onChanged;
@@ -220,6 +224,7 @@ class ServiceRow extends StatelessWidget {
   }
 }
 
+// Menampilkan total pembayaran di bagian bawah dialog.
 class TotalPaymentSection extends StatelessWidget {
   final double totalPayment;
 
