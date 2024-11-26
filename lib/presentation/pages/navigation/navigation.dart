@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ficonsax/ficonsax.dart';
-import 'package:go_router/go_router.dart';
 import 'package:looksy_app/presentation/pages/history/historypage.dart';
 import 'package:looksy_app/presentation/pages/home/homepage.dart';
 import 'package:looksy_app/presentation/pages/profile/profile_page.dart';

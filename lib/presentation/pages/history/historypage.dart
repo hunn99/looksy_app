@@ -1,51 +1,55 @@
+import 'dart:math';
+
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/card/card_history.dart';
+import 'package:looksy_app/presentation/pages/home/homepage.dart';
+import 'package:looksy_app/presentation/widgets/form/service_field.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+  const HistoryPage({super.key});
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  // Daftar orderan
-  List<Map<String, dynamic>> orders = [
-    {
-      'services': 'Premium Haircut, Hair Color',
-      'date': '15 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'On Process',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut, Hair Color',
-      'date': '15 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'On Process',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut, Hair Color, Hair Color, Shave',
-      'date': '12 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'Canceled',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut',
-      'date': '12 Aug 2023',
-      'time': '07:00 AM',
-      'price': 'Rp. 40.000',
-      'status': 'Finished',
-      'cancelable': true,
-    },
-  ];
+  // // Daftar orderan
+  // List<Map<String, dynamic>> orders = [
+  //   {
+  //     'services': ServiceSelectionWidget(pickedService),
+  //     'date': '15 Sep 2023',
+  //     'time': '06:30 AM',
+  //     'price': 'Rp. 175.000',
+  //     'status': 'On Process',
+  //     'cancelable': true,
+  //   },
+  //   {
+  //     'services': 'Premium Haircut, Hair Color',
+  //     'date': '15 Sep 2023',
+  //     'time': '06:30 AM',
+  //     'price': 'Rp. 175.000',
+  //     'status': 'On Process',
+  //     'cancelable': true,
+  //   },
+  //   {
+  //     'services': 'Premium Haircut, Hair Color, Hair Color, Shave',
+  //     'date': '12 Sep 2023',
+  //     'time': '06:30 AM',
+  //     'price': 'Rp. 175.000',
+  //     'status': 'Canceled',
+  //     'cancelable': true,
+  //   },
+  //   {
+  //     'services': 'Premium Haircut',
+  //     'date': '12 Aug 2023',
+  //     'time': '07:00 AM',
+  //     'price': 'Rp. 40.000',
+  //     'status': 'Finished',
+  //     'cancelable': true,
+  //   },
+  // ];
 
   // Fungsi untuk mengubah status menjadi 'Canceled'
   void cancelOrder(int index) {

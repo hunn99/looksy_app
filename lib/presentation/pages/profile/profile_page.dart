@@ -6,7 +6,6 @@ import 'package:looksy_app/presentation/pages/profile/edit_page.dart';
 import 'package:looksy_app/presentation/pages/profile/help_center.dart';
 import 'package:looksy_app/presentation/pages/profile/save_page.dart';
 // import 'package:looksy_app/presentation/services/auth_services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/modals/dialog.dart';
 
