@@ -136,9 +136,8 @@ class ServiceSelectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Container(
         padding: const EdgeInsets.all(16),
         height: 500,
@@ -155,18 +154,27 @@ class ServiceSelectionDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: ListView(
-                    children: services.map((service) {
-                      return ServiceRow(
-                        service: service,
-                        onChanged: (selected) {
-                          setModalState(() {
-                            service["selected"] = selected;
-                          });
-                          onSelectionChanged(services);
-                        },
-                      );
-                    }).toList(),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: ListView(
+                          children: services.map((service) {
+                            return ServiceRow(
+                              service: service,
+                              onChanged: (selected) {
+                                setModalState(() {
+                                  service["selected"] = selected;
+                                });
+                                onSelectionChanged(services);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -208,6 +216,9 @@ class ServiceRow extends StatelessWidget {
           onChanged: (bool? value) {
             onChanged(value ?? false);
           },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
         Expanded(
           child: Text(
@@ -235,9 +246,9 @@ class TotalPaymentSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Total Payment",
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+          style: TextStyle(fontSize: 16, color: neutralTheme[300]!),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderServices {
   final String baseUrl =
-      'http://192.168.71.10:8000/api'; // Gunakan base URL yang konsisten
+      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
   // Fungsi untuk membuat order
   Future<Either<String, entities.Order>> order(OrderDto params) async {
     final url = Uri.parse('$baseUrl/orders');

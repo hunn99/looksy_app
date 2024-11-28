@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ficonsax/ficonsax.dart';
-import 'package:go_router/go_router.dart';
 import 'package:looksy_app/presentation/pages/history/historypage.dart';
 import 'package:looksy_app/presentation/pages/home/homepage.dart';
 import 'package:looksy_app/presentation/pages/profile/profile_page.dart';
@@ -10,14 +9,24 @@ import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/navigations/menu_items.dart';
 
 class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+  final int initialIndex;
+
+  const NavigationPage(
+      {super.key, this.initialIndex = 0}); // Tambahkan parameter
 
   @override
   State<NavigationPage> createState() => _NavigationPageState();
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int? selectedIndex = 0;
+  late int selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    // Gunakan initialIndex dari widget untuk mengatur nilai awal selectedIndex
+    selectedIndex = widget.initialIndex;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -37,7 +46,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: pages[selectedIndex!],
+        body: pages[selectedIndex],
         bottomNavigationBar: Container(
           height: 72,
           width: double.infinity,
@@ -57,7 +66,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 selectedIcon: IconsaxBold.home_1,
                 unselectedIcon: IconsaxOutline.home,
                 index: 0,
-                selectedPageIndex: selectedIndex!,
+                selectedPageIndex: selectedIndex,
                 onTap: _onItemTapped,
               ),
               MenuItem(
@@ -65,7 +74,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 selectedIcon: IconsaxBold.magicpen,
                 unselectedIcon: IconsaxOutline.magicpen,
                 index: 1,
-                selectedPageIndex: selectedIndex!,
+                selectedPageIndex: selectedIndex,
                 onTap: _onItemTapped,
               ),
               const SizedBox(width: 80),
@@ -74,7 +83,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 selectedIcon: IconsaxBold.document_text,
                 unselectedIcon: IconsaxOutline.document_text,
                 index: 2,
-                selectedPageIndex: selectedIndex!,
+                selectedPageIndex: selectedIndex,
                 onTap: _onItemTapped,
               ),
               MenuItem(
@@ -82,14 +91,14 @@ class _NavigationPageState extends State<NavigationPage> {
                 selectedIcon: IconsaxBold.user,
                 unselectedIcon: IconsaxOutline.user,
                 index: 3,
-                selectedPageIndex: selectedIndex!,
+                selectedPageIndex: selectedIndex,
                 onTap: _onItemTapped,
               ),
             ],
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Container(
+        floatingActionButton: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: FloatingActionButton(
             onPressed: () {

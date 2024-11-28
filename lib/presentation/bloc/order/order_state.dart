@@ -12,7 +12,7 @@ class OrderInitial extends OrderState {}
 class OrderLoading extends OrderState {}
 
 class OrderSuccess extends OrderState {
-  final Order order;
+  final List<Order> order;
 
   const OrderSuccess({required this.order});
 

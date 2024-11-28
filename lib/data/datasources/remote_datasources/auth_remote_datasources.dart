@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   final String baseUrl =
-      'http://localhost:8000/api'; // Gunakan base URL yang konsisten
+      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {

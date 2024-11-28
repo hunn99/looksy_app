@@ -7,8 +7,8 @@ class Order {
   final String orderDate;
   final String orderTime;
   final double totalPrice;
-  final String status;
-  final List<Service>? services; // Jika ada data terkait services
+  String status;
+  final List<Item>? services; // Jika ada data terkait services
 
   Order({
     required this.id,
@@ -18,7 +18,7 @@ class Order {
     required this.orderTime,
     required this.totalPrice,
     required this.status,
-    this.services,
+    required this.services,
   });
 
   /// Factory method untuk membuat objek `Order` dari JSON
@@ -31,11 +31,9 @@ class Order {
       orderTime: json['order_time'],
       totalPrice: (json['total_price'] as num).toDouble(),
       status: json['status'],
-      services: json['services'] != null
-          ? (json['services'] as List)
-              .map<Service>((service) => Service.fromJson(service))
-              .toList()
-          : null,
+      services: (json['services'] as List<dynamic>?)
+            ?.map((e) => Item.fromJson(e['service'] as Map<String, dynamic>))
+            .toList(),
     );
   }
 
@@ -49,8 +47,7 @@ class Order {
       'order_time': orderTime,
       'total_price': totalPrice,
       'status': status,
-      if (services != null)
-        'services': services!.map((service) => service.toJson()).toList(),
+      'services': services,
     };
   }
 }

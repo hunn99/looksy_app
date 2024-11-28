@@ -42,6 +42,14 @@ TextStyle heading3Black = TextStyle(
   letterSpacing: 0,
 );
 
+TextStyle heading3White = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
+  fontWeight: fontWeight["Bold"],
+  fontSize: 24,
+  letterSpacing: 0,
+);
+
 TextStyle heading4Black = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme,

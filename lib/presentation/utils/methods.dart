@@ -1,5 +1,7 @@
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:looksy_app/presentation/utils/theme.dart';
 
 String convertDateFormat(String inputDate) {
   // Define the input and output date formats
@@ -23,3 +25,4 @@ bool isBarberShopOpen() {
 
   return nowMinutes >= startMinutes && nowMinutes <= endMinutes;
 }
+

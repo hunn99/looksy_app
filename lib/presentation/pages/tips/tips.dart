@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/card/card_tip.dart';
 import 'tips_detail.dart';
@@ -56,13 +57,13 @@ class TipsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Hair Tips Care',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            style: heading3White,
           ),
           backgroundColor: neutralTheme,
           toolbarHeight: 80,
+          leading: null,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -79,7 +80,8 @@ class TipsPage extends StatelessWidget {
               final hairTip = HairTip(
                 title: tipData['hair_type']!,
                 imagePath: tipData['photo']!,
-                characteristic: tipData['characteristic']!,  // Add characteristic data
+                characteristic:
+                    tipData['characteristic']!, // Add characteristic data
                 description: tipData['description']!,
               );
 
@@ -95,7 +97,8 @@ class TipsPage extends StatelessWidget {
                         title: hairTip.title,
                         subtitle: hairTip.subtitle,
                         imagePath: hairTip.imagePath,
-                        characteristic: hairTip.characteristic,  // Pass characteristic
+                        characteristic:
+                            hairTip.characteristic, // Pass characteristic
                         description: hairTip.description,
                       ),
                     ),

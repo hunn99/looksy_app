@@ -1,150 +1,104 @@
+// import 'dart:math';
+
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/card/card_history.dart';
+// import 'package:looksy_app/domain/entities/order.dart'; // Adjust the path accordingly
+// import 'package:looksy_app/presentation/pages/home/homepage.dart';
+// import 'package:looksy_app/presentation/widgets/form/service_field.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+  const HistoryPage({super.key});
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  // Daftar orderan
-  List<Map<String, dynamic>> orders = [
-    {
-      'services': 'Premium Haircut, Hair Color',
-      'date': '15 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'On Process',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut, Hair Color',
-      'date': '15 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'On Process',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut, Hair Color, Hair Color, Shave',
-      'date': '12 Sep 2023',
-      'time': '06:30 AM',
-      'price': 'Rp. 175.000',
-      'status': 'Canceled',
-      'cancelable': true,
-    },
-    {
-      'services': 'Premium Haircut',
-      'date': '12 Aug 2023',
-      'time': '07:00 AM',
-      'price': 'Rp. 40.000',
-      'status': 'Finished',
-      'cancelable': true,
-    },
-  ];
-
-  // Fungsi untuk mengubah status menjadi 'Canceled'
-  void cancelOrder(int index) {
-    setState(() {
-      orders[index]['status'] = 'Canceled';
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text(
-            'History',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          title: Text('History', style: heading3White),
           backgroundColor: neutralTheme,
           toolbarHeight: 80,
+          leading: null,
         ),
-        body: orders.isEmpty
-            ? NoOrdersFound()
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: orders
-                        .asMap()
-                        .entries
-                        .map(
-                          (entry) => Column(
-                            children: [
-                              HistoryCard(
-                                services: entry.value['services'],
-                                date: entry.value['date'],
-                                time: entry.value['time'],
-                                price: entry.value['price'],
-                                status: entry.value['status'],
-                                cancelable: entry.value['cancelable'],
-                                onCancel: () => cancelOrder(entry.key),
-                              ),
-                              const SizedBox(height: 12),
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
+        body: BlocBuilder<OrderBloc, OrderState>(builder: (context, state) {
+          final orderHistory = context.read<OrderBloc>().orderHistory;
+
+          if (orderHistory.isEmpty) {
+            return const NoOrdersFound();
+          }
+
+          return Container(
+            padding: const EdgeInsets.all(16),
+            child: ListView.builder(
+              itemCount: orderHistory.length,
+              itemBuilder: (context, index) {
+                final order = orderHistory[index];
+                return Column(
+                  children: [
+                    HistoryCard(
+                      services:
+                          order.services ?? [], // Menggunakan services yang ada
+                      date: order.orderDate,
+                      time: order.orderTime,
+                      price: 'Rp. ${order.totalPrice.toString()}',
+                      status: order.status,
+                      cancelable: order.status.toLowerCase() == 'on process',
+                      onCancel: () {
+                        context
+                            .read<OrderBloc>()
+                            .add(CancelOrderEvent(orderId: order.id));
+                      },
+                    ),
+                    const SizedBox(
+                        height: 12), // Menambahkan jarak setelah setiap item
+                  ],
+                );
+              },
+            ),
+          );
+        }),
       ),
     );
   }
+
+  // Fungsi untuk mengubah status menjadi 'Canceled'
+  // void cancelOrder(int index) {
+  //   final order = context.read<OrderBloc>().orderHistory[index];
+  //   if (order.status != 'Canceled') {
+  //     context.read<OrderBloc>().add(CancelOrderEvent(orderId: order.id));
+  //   }
+  // }
 }
 
 class NoOrdersFound extends StatelessWidget {
-  const NoOrdersFound({Key? key}) : super(key: key);
+  const NoOrdersFound({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height -
-            AppBar().preferredSize.height -
-            MediaQuery.of(context).padding.top,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                IconsaxBold.clipboard_text,
-                size: 80,
-                color: neutralTheme[200]!,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'No Orders Found',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: neutralTheme,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'There Are No Ongoing Orders At The Moment',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: neutralTheme[300]!,
-                ),
-              ),
-            ],
-          ),
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          IconsaxBold.clipboard,
+          size: 80,
+          color: neutralTheme[200]!,
         ),
-      ),
-    );
+        const SizedBox(height: 8),
+        Text('No Orders Found', style: heading4Black),
+        const SizedBox(height: 4),
+        Text('There Are No Ongoing Orders At The Moment', style: bodyGrey2),
+      ],
+    ));
   }
 }

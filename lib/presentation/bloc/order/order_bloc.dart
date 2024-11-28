@@ -30,9 +30,18 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         response.fold((l) => emit(OrderFailed(errorMessage: l)), (r) {
           _orderHistory.add(r); //Tambahkan order ke daftar riwayat
-          emit(OrderSuccess(order: r));
+          emit(OrderSuccess(order: _orderHistory));
         });
       },
     );
+    on<CancelOrderEvent>((event, emit) {
+      // Find the order by ID and update its status
+      final orderIndex =
+          _orderHistory.indexWhere((order) => order.id == event.orderId);
+      if (orderIndex != -1) {
+        _orderHistory[orderIndex].status = 'Canceled';
+        emit(OrderSuccess(order: [_orderHistory[orderIndex]]));
+      }
+    });
   }
 }

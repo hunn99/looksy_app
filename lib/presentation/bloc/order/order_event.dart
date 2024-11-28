@@ -22,4 +22,9 @@ final class OrderOrderEvent extends OrderEvent {
         params.totalPayment,
         params.pickedServices,
       ];
-} 
+}
+
+class CancelOrderEvent extends OrderEvent {
+  final int orderId; // Assuming each order has a unique ID
+  const CancelOrderEvent({required this.orderId});
+}
