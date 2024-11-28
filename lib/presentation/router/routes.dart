@@ -22,7 +22,7 @@ final GoRouter _router = GoRouter(
         path: '/home',
         pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(),
+              child: const NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -33,7 +33,7 @@ final GoRouter _router = GoRouter(
             path: 'tips',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(),
+              child: const NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -44,7 +44,7 @@ final GoRouter _router = GoRouter(
             path: 'scan',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(),
+              child: const NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -55,7 +55,7 @@ final GoRouter _router = GoRouter(
             path: 'history',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(),
+              child: const NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
@@ -66,7 +66,7 @@ final GoRouter _router = GoRouter(
             path: 'profile',
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
-              child: NavigationPage(),
+              child: const NavigationPage(),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 return child;
