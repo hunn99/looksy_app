@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:looksy_app/data/dto/requests/order_dto.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
 import 'package:looksy_app/presentation/pages/history/historypage.dart';
+import 'package:looksy_app/presentation/pages/navigation/navigation.dart';
+import 'package:looksy_app/presentation/pages/onboarding/login.dart';
 import 'package:looksy_app/presentation/utils/methods.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
@@ -188,11 +191,18 @@ class _HomePageState extends State<HomePage> {
                                   }
 
                                   if (state is OrderSuccess) {
+                                    // Menutup dialog loading sebelum navigasi
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HistoryPage()));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NavigationPage(
+                                                initialIndex: 2),
+                                      ),
+                                    );
                                   }
 
                                   if (state is OrderFailed) {
@@ -201,15 +211,29 @@ class _HomePageState extends State<HomePage> {
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content: Text(
-                                              'Failed to create order: ${state.errorMessage}')),
+                                        content: Text(
+                                            'Failed to create order: ${state.errorMessage}'),
+                                        behavior: SnackBarBehavior.floating,
+                                        margin: const EdgeInsets.only(
+                                          bottom:
+                                              80, // Pastikan margin bawah tidak menabrak FAB
+                                          left: 16, 
+                                          right: 16,
+                                        ),
+                                        backgroundColor: Colors.red[
+                                            600], // Warna latar belakang untuk visibilitas
+                                        duration: const Duration(seconds: 3),
+                                      ),
                                     );
                                   }
                                 },
                                 builder: (context, state) {
-                                  final GlobalKey<DatePickerWidgetState> datePickerKey = GlobalKey();
-                                  final GlobalKey<TimePickerWidgetState> timePickerKey = GlobalKey();
-                                  final GlobalKey<ServiceSelectionWidgetState>serviceSelectionKey = GlobalKey();
+                                  final GlobalKey<DatePickerWidgetState>
+                                      datePickerKey = GlobalKey();
+                                  final GlobalKey<TimePickerWidgetState>
+                                      timePickerKey = GlobalKey();
+                                  final GlobalKey<ServiceSelectionWidgetState>
+                                      serviceSelectionKey = GlobalKey();
 
                                   return Container(
                                     padding: const EdgeInsets.all(16),
