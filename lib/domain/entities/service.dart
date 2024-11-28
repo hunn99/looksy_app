@@ -1,16 +1,16 @@
-class Service {
+class Item {
   final int id;
   final String name;
   final int price;
 
-  Service({
+  Item({
     required this.id,
     required this.name,
     required this.price,
   });
 
-  factory Service.fromJson(Map<String, dynamic> json) {
-    return Service(
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
       id: json['id'],
       name: json['name'],
       price: json['price'],
