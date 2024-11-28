@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ficonsax/ficonsax.dart';
+import 'package:looksy_app/domain/entities/service.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
 class HistoryCard extends StatelessWidget {
-  final String services;
+  final List<Item> services;
   final String date;
   final String time;
   final String price;
@@ -12,7 +13,7 @@ class HistoryCard extends StatelessWidget {
   final VoidCallback? onCancel;
 
   const HistoryCard({
-    Key? key,
+    super.key,
     required this.services,
     required this.date,
     required this.time,
@@ -20,7 +21,7 @@ class HistoryCard extends StatelessWidget {
     required this.status,
     required this.cancelable,
     this.onCancel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +44,9 @@ class HistoryCard extends StatelessWidget {
               _buildColumnRight(isCanceled),
             ],
           ),
+          const SizedBox(height: 6),
           Divider(color: Colors.grey[300], thickness: 1),
-          const SizedBox(height: 12),
+          const SizedBox(height: 6),
           _buildBottomRow(context),
         ],
       ),
@@ -81,7 +83,7 @@ class HistoryCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  services,
+                  services.map((service) => service.name).join(', '),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -147,7 +149,7 @@ class HistoryCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: getStatusColors(status)['bgColor'],
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(100),
           ),
           child: Text(
             status,
@@ -168,7 +170,7 @@ class HistoryCard extends StatelessWidget {
                     : neutralTheme[300]!,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(100),
               ),
             ),
             child: Text(
