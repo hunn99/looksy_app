@@ -1,12 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
-import 'straight_detail.dart';
-import 'wavy_detail.dart';
-import 'curly_detail.dart';
-import 'frizz_detail.dart';
+import 'package:looksy_app/presentation/widgets/card/card_tip.dart';
+import 'tips_detail.dart';
+
+// Simulasi data yang diambil dari database atau API
+class HairTip {
+  final String title;
+  final String subtitle;
+  final String imagePath;
+  final String characteristic;
+  final String description;
+
+  HairTip({
+    required this.title,
+    required this.imagePath,
+    required this.characteristic,
+    required this.description,
+  }) : subtitle = "Hair Care Tips"; // Subtitle remains constant
+}
 
 class TipsPage extends StatelessWidget {
-  const TipsPage({super.key});
+  TipsPage({super.key});
+
+  // Simulasi daftar data tips per jenis rambut (simulating database data with hair_type as title)
+  final List<Map<String, String>> hairTipsData = [
+    {
+      'hair_type': 'Straight',
+      'photo': 'assets/images/Straight.jpg',
+      'characteristic': 'Sleek and smooth texture',
+      'description': 'Straight hair care tips go here...',
+    },
+    {
+      'hair_type': 'Wavy',
+      'photo': 'assets/images/Wavy.jpg',
+      'characteristic': 'Adds volume and bounce',
+      'description': 'Wavy hair care tips go here...',
+    },
+    {
+      'hair_type': 'Curly',
+      'photo': 'assets/images/Curly.jpg',
+      'characteristic': 'Defines curls with natural shape',
+      'description': 'Curly hair care tips go here...',
+    },
+    {
+      'hair_type': 'Frizzy',
+      'photo': 'assets/images/Frizzy.jpg',
+      'characteristic': 'Tends to be unruly without proper care',
+      'description': 'Frizzy hair care tips go here...',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,66 +66,44 @@ class TipsPage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: GridView(
+          child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 12.0,
               crossAxisSpacing: 12.0,
               childAspectRatio: 0.8,
             ),
-            children: [
-              _buildTipCard(context, "Straight", StraightDetailPage()),
-              _buildTipCard(context, "Wavy", WavyDetailPage()),
-              _buildTipCard(context, "Curly", const CurlyDetailPage()),
-              _buildTipCard(context, "Frizzy", const FrizzDetailPage()),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+            itemCount: hairTipsData.length,
+            itemBuilder: (context, index) {
+              final tipData = hairTipsData[index];
+              final hairTip = HairTip(
+                title: tipData['hair_type']!,
+                imagePath: tipData['photo']!,
+                characteristic: tipData['characteristic']!,  // Add characteristic data
+                description: tipData['description']!,
+              );
 
-  Widget _buildTipCard(BuildContext context, String title, Widget detailPage) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => detailPage),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: 2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                child: Image.asset(
-                  "assets/images/$title.jpg",
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hair Care Tips",
-                    style: TextStyle(fontSize: 12, color: neutralTheme[300]!),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ],
+              return TipCard(
+                imagePath: hairTip.imagePath,
+                title: hairTip.title,
+                subtitle: hairTip.subtitle,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TipsDetailPage(
+                        title: hairTip.title,
+                        subtitle: hairTip.subtitle,
+                        imagePath: hairTip.imagePath,
+                        characteristic: hairTip.characteristic,  // Pass characteristic
+                        description: hairTip.description,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
