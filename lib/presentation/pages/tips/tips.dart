@@ -1,55 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:looksy_app/data/datasources/remote_datasources/tips_remote_datasources.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/card/card_tip.dart';
 import 'tips_detail.dart';
 
-// Simulasi data yang diambil dari database atau API
-class HairTip {
-  final String title;
-  final String subtitle;
-  final String imagePath;
-  final String characteristic;
-  final String description;
+class TipsPage extends StatefulWidget {
+  const TipsPage({super.key});
 
-  HairTip({
-    required this.title,
-    required this.imagePath,
-    required this.characteristic,
-    required this.description,
-  }) : subtitle = "Hair Care Tips"; // Subtitle remains constant
+  @override
+  State<TipsPage> createState() => _TipsPageState();
 }
 
-class TipsPage extends StatelessWidget {
-  TipsPage({super.key});
+class _TipsPageState extends State<TipsPage> {
+  final TipsServices _tipsServices = TipsServices();
+  List<Map<String, String>> hairTipsData = [];
+  bool isLoading = true;
 
-  // Simulasi daftar data tips per jenis rambut (simulating database data with hair_type as title)
-  final List<Map<String, String>> hairTipsData = [
-    {
-      'hair_type': 'Straight',
-      'photo': 'assets/images/Straight.jpg',
-      'characteristic': 'Sleek and smooth texture',
-      'description': 'Straight hair care tips go here...',
-    },
-    {
-      'hair_type': 'Wavy',
-      'photo': 'assets/images/Wavy.jpg',
-      'characteristic': 'Adds volume and bounce',
-      'description': 'Wavy hair care tips go here...',
-    },
-    {
-      'hair_type': 'Curly',
-      'photo': 'assets/images/Curly.jpg',
-      'characteristic': 'Defines curls with natural shape',
-      'description': 'Curly hair care tips go here...',
-    },
-    {
-      'hair_type': 'Frizzy',
-      'photo': 'assets/images/Frizzy.jpg',
-      'characteristic': 'Tends to be unruly without proper care',
-      'description': 'Frizzy hair care tips go here...',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadHairTips();
+  }
+
+  // Fungsi untuk memuat data tips dari API
+  Future<void> _loadHairTips() async {
+    try {
+      final fetchedTips = await _tipsServices.fetchHairTips();
+      setState(() {
+        hairTipsData = fetchedTips;
+        isLoading = false;
+      });
+    } catch (error) {
+      print('Error fetching hair tips: $error');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,57 +45,59 @@ class TipsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(
-            'Hair Tips Care',
-            style: heading3White,
-          ),
+          title: Text('Hair Tips Care', style: heading3White),
           backgroundColor: neutralTheme,
           toolbarHeight: 80,
           leading: null,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12.0,
-              crossAxisSpacing: 12.0,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: hairTipsData.length,
-            itemBuilder: (context, index) {
-              final tipData = hairTipsData[index];
-              final hairTip = HairTip(
-                title: tipData['hair_type']!,
-                imagePath: tipData['photo']!,
-                characteristic:
-                    tipData['characteristic']!, // Add characteristic data
-                description: tipData['description']!,
-              );
-
-              return TipCard(
-                imagePath: hairTip.imagePath,
-                title: hairTip.title,
-                subtitle: hairTip.subtitle,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TipsDetailPage(
-                        title: hairTip.title,
-                        subtitle: hairTip.subtitle,
-                        imagePath: hairTip.imagePath,
-                        characteristic:
-                            hairTip.characteristic, // Pass characteristic
-                        description: hairTip.description,
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : hairTipsData.isEmpty
+                ? const Center(
+                    child: Text('No tips available.'),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12.0,
+                        crossAxisSpacing: 12.0,
+                        childAspectRatio: 0.8,
                       ),
+                      itemCount: hairTipsData.length,
+                      itemBuilder: (context, index) {
+                        final tipData = hairTipsData[index];
+
+                        // Pastikan photo adalah URL gambar yang valid
+                        final imageUrl = tipData['photo'] ?? '';
+
+                        return TipCard(
+                          imagePath: imageUrl,
+                          title: tipData['hair_type']!,
+                          subtitle: 'Hair Care Tips',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TipsDetailPage(
+                                  title: tipData['hair_type']!,
+                                  subtitle: 'Hair Care Tips',
+                                  imagePath: imageUrl,
+                                  characteristic:
+                                      tipData['characteristic_hair']!,
+                                  description: tipData['description']!,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+                  ),
       ),
     );
   }
