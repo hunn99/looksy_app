@@ -25,16 +25,47 @@ class TipCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(10)),
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            // Gambar
+            imagePath.isNotEmpty
+                ? Expanded(
+                    child: ClipRRect(
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(10)),
+                      child: Image.network(
+                        imagePath, // Menampilkan gambar dari URL
+                        fit: BoxFit.cover,
+                        width: double.infinity, // Mengisi lebar
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.expectedTotalBytes != 0
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            (loadingProgress
+                                                    .expectedTotalBytes ??
+                                                1)
+                                        : 0
+                                    : null,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 120, // Placeholder jika tidak ada gambar
+                    color: Colors.grey[300],
+                    child:
+                        const Icon(Icons.image, size: 50, color: Colors.grey),
+                  ),
+            // Deskripsi dan Judul
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
