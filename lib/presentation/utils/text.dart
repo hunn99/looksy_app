@@ -80,6 +80,13 @@ TextStyle bodyGrey2 = TextStyle(
   fontSize: 14,
 );
 
+TextStyle bodyGrey4 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme[300],
+  fontWeight: fontWeight["Medium"],
+  fontSize: 12,
+);
+
 TextStyle bodyGrey3 = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme[200],

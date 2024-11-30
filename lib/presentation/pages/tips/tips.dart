@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:looksy_app/data/datasources/remote_datasources/tips_remote_datasources.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
-import 'package:looksy_app/presentation/widgets/card/card_tip.dart';
+import 'package:looksy_app/presentation/widgets/card/card_tips.dart';
 import 'tips_detail.dart';
 
 class TipsPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class TipsPage extends StatefulWidget {
 
 class _TipsPageState extends State<TipsPage> {
   final TipsServices _tipsServices = TipsServices();
-  List<Map<String, String>> hairTipsData = [];
+  List<Map<String, dynamic>> hairTipsData = [];
   bool isLoading = true;
 
   @override
@@ -34,6 +34,7 @@ class _TipsPageState extends State<TipsPage> {
     } catch (error) {
       print('Error fetching hair tips: $error');
       setState(() {
+        hairTipsData = [];
         isLoading = false;
       });
     }
@@ -54,50 +55,42 @@ class _TipsPageState extends State<TipsPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : hairTipsData.isEmpty
-                ? const Center(
-                    child: Text('No tips available.'),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12.0,
-                        crossAxisSpacing: 12.0,
-                        childAspectRatio: 0.8,
-                      ),
-                      itemCount: hairTipsData.length,
-                      itemBuilder: (context, index) {
-                        final tipData = hairTipsData[index];
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12.0,
+                    crossAxisSpacing: 12.0,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemCount: hairTipsData.length,
+                  itemBuilder: (context, index) {
+                    final tipsData = hairTipsData[index];
+                    print('Tips Data: $tipsData'); // Debug data tips
 
-                        // Pastikan photo adalah URL gambar yang valid
-                        final imageUrl = tipData['photo'] ?? '';
-
-                        return TipCard(
-                          imagePath: imageUrl,
-                          title: tipData['hair_type']!,
-                          subtitle: 'Hair Care Tips',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TipsDetailPage(
-                                  title: tipData['hair_type']!,
-                                  subtitle: 'Hair Care Tips',
-                                  imagePath: imageUrl,
-                                  characteristic:
-                                      tipData['characteristic_hair']!,
-                                  description: tipData['description']!,
-                                ),
-                              ),
-                            );
-                          },
+                    return TipsCard(
+                      imagePath: tipsData['photo'],
+                      title: tipsData['hair_type'],
+                      subtitle: 'Hair Type',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TipsDetailPage(
+                              title: tipsData['hair_type'],
+                              subtitle: 'Hair Type',
+                              imagePath: tipsData['photo'],
+                              characteristic: tipsData['characteristic_hair'],
+                              description: tipsData['description'],
+                            ),
+                          ),
                         );
                       },
-                    ),
-                  ),
+                    );
+                  },
+                ),
+              ),
       ),
     );
   }
