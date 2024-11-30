@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   final String baseUrl =
-      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
+      'http://localhost:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {
@@ -87,5 +87,24 @@ class AuthServices {
     } catch (e) {
       return Left('Error during logout: $e');
     }
+  }
+
+  // Fungsi untuk mengambil data user dari SharedPreferences
+  Future<User?> getUserFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getInt('user_id');
+    final username = prefs.getString('username');
+    final email = prefs.getString('email');
+    final profileImage = prefs.getString('profile_image'); // Ambil URL gambar
+
+    if (username != null && email != null) {
+      return User(
+        id: id ?? 0,
+        username: username,
+        email: email,
+        profileImage: profileImage,
+      );
+    }
+    return null; // Jika data tidak ditemukan
   }
 }
