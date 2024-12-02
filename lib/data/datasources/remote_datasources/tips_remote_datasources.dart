@@ -1,32 +1,41 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class TipsServices {
-  // URL API yang digunakan untuk mengambil data tips
-  final String apiUrl = "http://localhost:8000/api/hair_tips";
+  final baseUrl = 'http://192.168.23.251:8000/storage';
 
   // Fungsi untuk mengambil daftar tips perawatan rambut dari API
-  Future<List<Map<String, String>>> fetchHairTips() async {
+  Future<List<Map<String, dynamic>>> fetchHairTips() async {
     try {
-      // Mengirim permintaan GET ke API
-      final response = await http.get(Uri.parse(apiUrl), headers: {
-        'Content-Type': 'application/json',
-      });
+      // Ambil token dari SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+
+      if (token == null) {
+        throw Exception('Token tidak ditemukan, harap login kembali');
+      }
+      final url = Uri.parse('http://192.168.23.251:8000/api/tips');
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token', // Sertakan token
+        },
+      );
 
       if (response.statusCode == 200) {
         // Mengubah response menjadi JSON
         final responseData = jsonDecode(response.body);
-
-        // Mengecek apakah data sesuai dengan struktur yang diharapkan
         final tipsData = responseData['data'];
         if (tipsData is List) {
-          // Mapping data dari API ke List<Map<String, String>>
-          return tipsData.map<Map<String, String>>((tip) {
+          return tipsData.map<Map<String, dynamic>>((tips) {
             return {
-              'hair_type': tip['hair_type'] ?? '',
-              'characteristic_hair': tip['characteristic_hair'] ?? '',
-              'description': tip['description'] ?? '',
-              'photo': tip['photo'] ?? '',
+              'hair_type': tips['hair_type'],
+              'characteristic_hair': tips['characteristic_hair'],
+              'description': tips['description'],
+              'photo': '$baseUrl/${tips['photo']}',
             };
           }).toList();
         } else {

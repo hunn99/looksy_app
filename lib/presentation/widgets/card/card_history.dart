@@ -101,7 +101,8 @@ class HistoryCard extends StatelessWidget {
   Widget _buildColumnRight(bool isCanceled) {
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:looksy_app/data/dto/requests/order_dto.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
-import 'package:looksy_app/presentation/pages/history/historypage.dart';
 import 'package:looksy_app/presentation/pages/navigation/navigation.dart';
-import 'package:looksy_app/presentation/pages/onboarding/login.dart';
 import 'package:looksy_app/presentation/utils/methods.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
