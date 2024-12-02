@@ -107,4 +107,50 @@ class AuthServices {
     }
     return null; // Jika data tidak ditemukan
   }
+
+  // Fungsi untuk memperbarui data pengguna
+  Future<Either<String, User>> updateProfile({
+    required String username,
+    required String email,
+    String? profileImagePath,
+  }) async {
+    final url = Uri.parse('$baseUrl/update-profile');
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+
+      // Siapkan data yang akan dikirim
+      final request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..fields['username'] = username
+        ..fields['email'] = email;
+
+      // Tambahkan file gambar jika ada
+      if (profileImagePath != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'profile_image',
+          profileImagePath,
+        ));
+      }
+
+      // Kirim permintaan
+      final response = await http.Response.fromStream(await request.send());
+
+      if (response.statusCode == 200) {
+        final updatedUser = User.fromJson(jsonDecode(response.body)['user']);
+        // Perbarui data di SharedPreferences
+        await prefs.setString('username', updatedUser.username);
+        await prefs.setString('email', updatedUser.email);
+        if (updatedUser.profileImage != null) {
+          await prefs.setString('profile_image', updatedUser.profileImage!);
+        }
+        return Right(updatedUser);
+      } else {
+        return Left(jsonDecode(response.body)['error']);
+      }
+    } catch (e) {
+      return Left('Error during update: $e');
+    }
+  }
 }
