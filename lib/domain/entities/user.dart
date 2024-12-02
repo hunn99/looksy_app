@@ -30,4 +30,19 @@ class User {
       'profile_image': profileImage,
     };
   }
+
+  // Method to create a copy with updated fields
+  User copyWith({
+    int? id,
+    String? username,
+    String? email,
+    String? profileImage,
+  }) {
+    return User(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      profileImage: profileImage ?? this.profileImage,
+    );
+  }
 }
