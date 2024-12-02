@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   final String baseUrl =
-      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
+      'http://localhost:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {
@@ -86,6 +86,71 @@ class AuthServices {
       }
     } catch (e) {
       return Left('Error during logout: $e');
+    }
+  }
+
+  // Fungsi untuk mengambil data user dari SharedPreferences
+  Future<User?> getUserFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getInt('user_id');
+    final username = prefs.getString('username');
+    final email = prefs.getString('email');
+    final profileImage = prefs.getString('profile_image'); // Ambil URL gambar
+
+    if (username != null && email != null) {
+      return User(
+        id: id ?? 0,
+        username: username,
+        email: email,
+        profileImage: profileImage,
+      );
+    }
+    return null; // Jika data tidak ditemukan
+  }
+
+  // Fungsi untuk memperbarui data pengguna
+  Future<Either<String, User>> updateProfile({
+    required String username,
+    required String email,
+    String? profileImagePath,
+  }) async {
+    final url = Uri.parse('$baseUrl/update-profile');
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('auth_token');
+
+      // Siapkan data yang akan dikirim
+      final request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..fields['username'] = username
+        ..fields['email'] = email;
+
+      // Tambahkan file gambar jika ada
+      if (profileImagePath != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'profile_image',
+          profileImagePath,
+        ));
+      }
+
+      // Kirim permintaan
+      final response = await http.Response.fromStream(await request.send());
+
+      if (response.statusCode == 200) {
+        final updatedUser = User.fromJson(jsonDecode(response.body)['user']);
+        // Perbarui data di SharedPreferences
+        await prefs.setString('username', updatedUser.username);
+        await prefs.setString('email', updatedUser.email);
+        if (updatedUser.profileImage != null) {
+          await prefs.setString('profile_image', updatedUser.profileImage!);
+        }
+        return Right(updatedUser);
+      } else {
+        return Left(jsonDecode(response.body)['error']);
+      }
+    } catch (e) {
+      return Left('Error during update: $e');
     }
   }
 }

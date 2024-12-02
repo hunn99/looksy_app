@@ -20,6 +20,13 @@ final class AuthSuccess extends AuthState {
 
   const AuthSuccess({required this.user});
 
+  AuthSuccess copyWith({User? user}) {
+    return AuthSuccess(
+      user: user ??
+          this.user, // Gunakan user baru jika tersedia, jika tidak, gunakan yang lama
+    );
+  }
+
   @override
   List<Object?> get props => [user];
 }
@@ -34,10 +41,40 @@ final class AuthFailed extends AuthState {
   List<Object?> get props => [errorMessage];
 }
 
-// State khusus untuk logout (opsional jika diperlukan)
-final class AuthLogout extends AuthState {
-  const AuthLogout();
+// State ketika pengguna berhasil logout
+final class AuthLoggedOut extends AuthState {
+  const AuthLoggedOut();
 
   @override
   List<Object?> get props => [];
+}
+
+// State ketika data profil pengguna berhasil diambil
+final class AuthUserLoaded extends AuthState {
+  final User user;
+
+  const AuthUserLoaded({required this.user});
+
+  @override
+  List<Object?> get props => [user];
+}
+
+// State ketika terjadi kesalahan saat mengambil data profil pengguna
+final class AuthUserLoadFailed extends AuthState {
+  final String errorMessage;
+
+  const AuthUserLoadFailed({required this.errorMessage});
+
+  @override
+  List<Object?> get props => [errorMessage];
+}
+
+// State ketika profil pengguna berhasil diperbarui
+final class AuthProfileUpdated extends AuthState {
+  final User user;
+
+  const AuthProfileUpdated({required this.user});
+
+  @override
+  List<Object?> get props => [user];
 }

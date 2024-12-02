@@ -41,3 +41,28 @@ final class AuthRegisterEvent extends AuthEvent {
 
 // Event untuk proses logout
 final class AuthLogoutEvent extends AuthEvent {}
+
+// Event untuk mengambil data user dari SharedPreferences
+final class AuthGetUserFromPrefsEvent extends AuthEvent {}
+
+// Event untuk memperbarui profil pengguna
+final class AuthUpdateProfileEvent extends AuthEvent {
+  final String username;
+  final String email;
+  final String? profileImage;
+
+  const AuthUpdateProfileEvent({
+    required this.username,
+    required this.email,
+    this.profileImage,
+  });
+
+  @override
+  List<Object?> get props => [username, email, profileImage];
+}
+
+class UpdateUserEvent extends AuthEvent {
+  final User updatedUser;
+
+  UpdateUserEvent(this.updatedUser);
+}
