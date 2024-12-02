@@ -13,6 +13,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthServices authServices;
 
   AuthBloc({required this.authServices}) : super(AuthInitial()) {
+
+    // Event untuk login
     on<AuthLoginEvent>(
       (event, emit) async {
         emit(AuthLoading());
@@ -28,6 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
     );
+
+    // Event untuk registrasi
     on<AuthRegisterEvent>(
       (event, emit) async {
         emit(AuthLoading());
@@ -44,6 +48,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
     );
+
+    // Event untuk mendapatkan data pengguna dari SharedPreferences
+    on<AuthGetUserFromPrefsEvent>(
+      (event, emit) async {
+        emit(AuthLoading());
+
+        final user = await authServices.getUserFromPrefs();
+
+        if (user != null) {
+          emit(AuthSuccess(user: user));
+        } else {
+          emit(AuthFailed(errorMessage: 'No user data found'));
+        }
+      },
+    );
+
+    on<UpdateUserEvent>((event, emit) {
+  if (state is AuthSuccess) {
+    final updatedState = (state as AuthSuccess).copyWith(user: event.updatedUser);
+    emit(updatedState);
+  }
+});
   }
 
   // Handler untuk logout
