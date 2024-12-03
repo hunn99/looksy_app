@@ -1,7 +1,6 @@
 part of 'order_bloc.dart';
 
 @immutable
-
 sealed class OrderEvent extends Equatable {
   const OrderEvent();
 
@@ -24,7 +23,14 @@ final class OrderOrderEvent extends OrderEvent {
       ];
 }
 
-class CancelOrderEvent extends OrderEvent {
+// Event untuk membatalkan order
+final class CancelOrderEvent extends OrderEvent {
   final int orderId; // Assuming each order has a unique ID
   const CancelOrderEvent({required this.orderId});
+
+  @override
+  List<Object?> get props => [orderId];
 }
+
+// Event untuk mengambil riwayat order
+final class FetchOrderHistoryEvent extends OrderEvent {}
