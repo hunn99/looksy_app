@@ -11,9 +11,9 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      id: json['id'],
-      name: json['name'],
-      price: json['price'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      price: json['price'] ?? 0,
     );
   }
 
