@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looksy_app/data/datasources/remote_datasources/auth_remote_datasources.dart';
 import 'package:looksy_app/data/datasources/remote_datasources/order_remote_datasources.dart';
+import 'package:looksy_app/data/datasources/remote_datasources/history_remote_datasources.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
 import 'package:looksy_app/presentation/router/routes.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(authServices: AuthServices()),
         ),
         BlocProvider(
-          create: (context) => OrderBloc(orderServices: OrderServices()),
+          create: (context) => OrderBloc(orderServices: OrderServices(), historyRemoteDataSource: HistoryRemoteDataSource(),),
         ),
       ],
       child: MaterialApp.router(
