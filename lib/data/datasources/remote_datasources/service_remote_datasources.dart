@@ -15,7 +15,7 @@ class ServiceServices {
       }
 
       // Kirim permintaan ke API
-      final url = Uri.parse('http://192.168.0.111:8000/api/services');
+      final url = Uri.parse('http://192.168.64.142:8000/api/services');
       final response = await http.get(
         url,
         headers: {

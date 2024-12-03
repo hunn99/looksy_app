@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:looksy_app/data/datasources/remote_datasources/auth_remote_datasources.dart';
 import 'package:looksy_app/data/dto/requests/order_dto.dart';
 import 'package:looksy_app/domain/entities/order.dart' as entities;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderServices {
   final String baseUrl =
-      'http://192.168.0.111:8000/api'; // Gunakan base URL yang konsisten
+      'http://192.168.64.142:8000/api'; // Gunakan base URL yang konsisten
   // Fungsi untuk membuat order
   Future<Either<String, entities.Order>> order(OrderDto params) async {
     final url = Uri.parse('$baseUrl/orders');

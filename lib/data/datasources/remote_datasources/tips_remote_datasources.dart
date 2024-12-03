@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TipsServices {
-  final baseUrl = 'http://192.168.23.251:8000/storage';
+  final baseUrl = 'http://192.168.64.142:8000/storage';
 
   // Fungsi untuk mengambil daftar tips perawatan rambut dari API
   Future<List<Map<String, dynamic>>> fetchHairTips() async {
@@ -16,7 +16,7 @@ class TipsServices {
       if (token == null) {
         throw Exception('Token tidak ditemukan, harap login kembali');
       }
-      final url = Uri.parse('http://192.168.23.251:8000/api/tips');
+      final url = Uri.parse('http://192.168.64.142:8000/api/tips');
       final response = await http.get(
         url,
         headers: {
