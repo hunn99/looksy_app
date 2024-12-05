@@ -14,27 +14,27 @@ class OrderDto {
   Map<String, dynamic> toJson() {
     return {
       'date': date,
-      'time': _convertTimeTo24HourFormat(time),
+      'time': time,
       'total_payment': totalPayment,
       'services': pickedServices,
     };
   }
 
-  String _convertTimeTo24HourFormat(String time12Hour) {
-    final timeParts = time12Hour.split(" ");
-    final hourMinute = timeParts[0].split(":");
-    int hour = int.parse(hourMinute[0]);
-    final minute = hourMinute[1];
-    final isPM = timeParts[1].toUpperCase() == 'PM';
+  // String _convertTimeTo24HourFormat(String time12Hour) {
+  //   final timeParts = time12Hour.split(" ");
+  //   final hourMinute = timeParts[0].split(":");
+  //   int hour = int.parse(hourMinute[0]);
+  //   final minute = hourMinute[1];
+  //   final isPM = timeParts[1].toUpperCase() == 'PM';
 
-    if (isPM && hour != 12) {
-      hour += 12;
-    } else if (!isPM && hour == 12) {
-      hour = 0;
-    }
+  //   if (isPM && hour != 12) {
+  //     hour += 12;
+  //   } else if (!isPM && hour == 12) {
+  //     hour = 0;
+  //   }
 
-    return '${hour.toString().padLeft(2, '0')}:$minute';
-  }
+  //   return '${hour.toString().padLeft(2, '0')}:$minute';
+  // }
 
   OrderDto copyWith({
     String? date,
