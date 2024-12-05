@@ -18,7 +18,7 @@ const MaterialColor neutralTheme = MaterialColor(
 );
 
 const MaterialColor redTheme = MaterialColor(
-  0xFFCB3A31,
+  0xFFED2015,
   <int, Color>{
     50: Color(0xFFFDF4F3),
     100: Color(0xFFFFE1DF),
@@ -35,7 +35,7 @@ const MaterialColor redTheme = MaterialColor(
 );
 
 const MaterialColor greenTheme = MaterialColor(
-  0xFF43936C,
+  0xFF22973F,
   <int, Color>{
     50: Color(0xFFF1F8F4),
     100: Color(0xFFDFF9E5),
