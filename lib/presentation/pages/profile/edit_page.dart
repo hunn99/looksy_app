@@ -14,10 +14,10 @@ class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  EditProfilePageState createState() => EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   File? _image;
@@ -97,6 +97,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             style: TextStyle(
                 fontSize: 24, fontWeight: FontWeight.w500, color: Colors.white),
           ),
+          toolbarHeight: 80,
           backgroundColor: neutralTheme,
           leading: IconButton(
             icon: const Icon(IconsaxOutline.arrow_left, color: Colors.white),
