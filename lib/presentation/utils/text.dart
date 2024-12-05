@@ -58,12 +58,28 @@ TextStyle heading4Black = TextStyle(
   letterSpacing: 0,
 );
 
+TextStyle heading4White = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
+  fontWeight: fontWeight["SemiBold"],
+  fontSize: 28,
+  letterSpacing: 0,
+);
+
 TextStyle heading4 = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme,
   fontWeight: fontWeight["Medium"],
   fontSize: 18,
-  letterSpacing: -2,
+  letterSpacing: 0,
+);
+
+TextStyle heading5 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme,
+  fontWeight: fontWeight["Bold"],
+  fontSize: 18,
+  letterSpacing: 0,
 );
 
 TextStyle bodyGrey1 = TextStyle(
@@ -85,6 +101,13 @@ TextStyle bodyGrey4 = TextStyle(
   color: neutralTheme[300],
   fontWeight: fontWeight["Medium"],
   fontSize: 12,
+);
+
+TextStyle bodyGrey5 = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme[300],
+  fontWeight: fontWeight["Medium"],
+  fontSize: 16,
 );
 
 TextStyle bodyGrey3 = TextStyle(
@@ -131,6 +154,13 @@ TextStyle bodyBlack4 = TextStyle(
 TextStyle bodyBlack5 = TextStyle(
   fontFamily: typeFace,
   color: neutralTheme,
+  fontWeight: fontWeight["Bold"],
+  fontSize: 14,
+);
+
+TextStyle bodyWhite5 = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
   fontWeight: fontWeight["Bold"],
   fontSize: 14,
 );
