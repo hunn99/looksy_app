@@ -5,14 +5,15 @@ import 'package:looksy_app/data/dto/requests/login_dto.dart';
 import 'package:looksy_app/data/dto/requests/register_dto.dart';
 import 'package:looksy_app/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:looksy_app/presentation/utils/constants.dart';
 
 class AuthServices {
-  final String baseUrl =
-      'http://localhost:8000/api'; // Gunakan base URL yang konsisten
+  // final String baseUrl =
+  //     'http://192.168.23.251:8000/api'; // Gunakan base URL yang konsisten
 
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {
-    final url = Uri.parse('$baseUrl/register');
+    final url = Uri.parse('$baseUrl/api/register');
 
     try {
       final response = await http.post(
@@ -40,7 +41,7 @@ class AuthServices {
 
   // Fungsi untuk login pengguna
   Future<Either<String, User>> login(LoginDto params) async {
-    final url = Uri.parse('$baseUrl/login');
+    final url = Uri.parse('$baseUrl/api/login');
     try {
       final response = await http.post(
         url,
@@ -68,7 +69,7 @@ class AuthServices {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token');
-      final url = Uri.parse('$baseUrl/logout');
+      final url = Uri.parse('$baseUrl/api/logout');
       final response = await http.post(
         url,
         headers: {
@@ -114,7 +115,7 @@ class AuthServices {
     required String email,
     String? profileImagePath,
   }) async {
-    final url = Uri.parse('$baseUrl/update-profile');
+    final url = Uri.parse('$baseUrl/api/update-profile');
 
     try {
       final prefs = await SharedPreferences.getInstance();

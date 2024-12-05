@@ -8,7 +8,7 @@ class Order {
   final String orderTime;
   final double totalPrice;
   String status;
-  final List<Item>? services; // Jika ada data terkait services
+  final List<Item>? services;
 
   Order({
     required this.id,
@@ -18,56 +18,34 @@ class Order {
     required this.orderTime,
     required this.totalPrice,
     required this.status,
-    required this.services,
+    this.services,
   });
 
-  /// Factory method untuk membuat objek `Order` dari JSON
   factory Order.fromJson(Map<String, dynamic> json) {
-    // Tangani `services` sebagai string atau list
-    final servicesRaw = json['services'];
-    List<Item>? services;
-
-    if (servicesRaw is String) {
-      // Jika string, pecah menjadi list berdasarkan koma
-      services = servicesRaw
-          .split(',')
-          .map((service) => Item(id: 0, name: service.trim(), price: 0))
-          .toList();
-    } else if (servicesRaw is List) {
-      // Jika list, proses seperti biasa
-      services = servicesRaw
-          .map((e) => Item.fromJson(e['service'] as Map<String, dynamic>))
-          .toList();
-    }
-
     return Order(
       id: json['id'] ?? 0,
       userId: json['user_id'] ?? 0,
       barbershopId: json['barbershop_id'] ?? 0,
-      orderDate: json['date'] ?? '',
-      orderTime: json['time'] ?? '',
-      totalPrice: _convertPriceToDouble(json['price']),
-      status: json['status'] ?? 'Unknown',
-      services: services,
+      orderDate: json['order_date'] ?? '',
+      orderTime: json['order_time'] ?? '',
+      totalPrice: (json['total_price'] ?? 0).toDouble(),
+      status: json['status'] ?? '',
+      services: (json['services'] as List<dynamic>?)
+          ?.map((serviceJson) => Item.fromServiceJson(serviceJson))
+          .toList(),
     );
   }
 
-  // Mengonversi harga menjadi double
-  static double _convertPriceToDouble(String price) {
-    return double.tryParse(price.replaceAll(RegExp(r'[Rp.\s]'), '').replaceAll(',', '.')) ?? 0.0;
-  }
-
-  /// Mengonversi objek `Order` menjadi JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'user_id': userId,	
+      'user_id': userId,
       'barbershop_id': barbershopId,
-      'date': orderDate,
-      'time': orderTime,
-      'price': totalPrice,
+      'order_date': orderDate,
+      'order_time': orderTime,
+      'total_price': totalPrice,
       'status': status,
-      'services': services,
+      'services': services?.map((service) => service.toJson()).toList(),
     };
   }
 }

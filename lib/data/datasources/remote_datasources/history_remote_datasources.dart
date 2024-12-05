@@ -3,12 +3,13 @@ import 'package:dartz/dartz.dart' as dartz;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:looksy_app/domain/entities/order.dart';
+import 'package:looksy_app/presentation/utils/constants.dart';
 
 class HistoryRemoteDataSource {
-  final String baseUrl = 'http://localhost:8000/api';
+  // final String baseUrl = 'http://192.168.23.251:8000/api';
 
   Future<dartz.Either<String, List<Order>>> getOrderHistory() async {
-    final url = Uri.parse('$baseUrl/history');
+    final url = Uri.parse('$baseUrl/api/history');
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token');
@@ -20,6 +21,9 @@ class HistoryRemoteDataSource {
           'Content-Type': 'application/json',
         },
       );
+
+      print(response.body);
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
@@ -34,9 +38,9 @@ class HistoryRemoteDataSource {
       return dartz.Left('Error fetching order history: $e');
     }
   }
-  
+
   Future<dartz.Either<String, bool>> cancelOrder(int orderId) async {
-    final url = Uri.parse('$baseUrl/history/cancel/$orderId');
+    final url = Uri.parse('$baseUrl/api/history/cancel/$orderId');
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token');
@@ -52,7 +56,8 @@ class HistoryRemoteDataSource {
       if (response.statusCode == 200) {
         return dartz.Right(true);
       } else {
-        final error = jsonDecode(response.body)['error'] ?? 'Failed to cancel order';
+        final error =
+            jsonDecode(response.body)['error'] ?? 'Failed to cancel order';
         return dartz.Left(error);
       }
     } catch (e) {

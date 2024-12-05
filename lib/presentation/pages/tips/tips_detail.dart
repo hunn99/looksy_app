@@ -1,5 +1,6 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
 class TipsDetailPage extends StatelessWidget {
@@ -39,34 +40,30 @@ class TipsDetailPage extends StatelessWidget {
               Container(
                 color: neutralTheme,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 40),
                 child: Row(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         imagePath,
-                        height: 150,
-                        width: 150,
+                        height: 220,
+                        width: 170,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 24),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             subtitle,
-                            style: TextStyle(
-                                fontSize: 14, color: neutralTheme[300]!),
+                            style: bodyGrey2,
                           ),
                           Text(
                             title,
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: heading4White,
                           ),
                         ],
                       ),
@@ -74,49 +71,31 @@ class TipsDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              // Characteristic Section with Label
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  'Characteristic', // Label before characteristic
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: neutralTheme[300], // Gray color
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  characteristic, // Display characteristic here
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // "How to Care for 'hair_type' Hair" Label
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  'How to Care for $title Hair', // Display dynamic hair type
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: neutralTheme,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              // Body Section with Description
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  description,
-                  style: TextStyle(fontSize: 16),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Characteristic', // Label before characteristic
+                      style: heading4Black,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      characteristic, // Display characteristic here
+                      style: bodyBlack1,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'How to Care for $title Hair', // Display dynamic hair type
+                      style: heading4Black,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: bodyBlack1,
+                    ),
+                  ],
                 ),
               ),
             ],

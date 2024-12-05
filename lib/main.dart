@@ -25,8 +25,10 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(authServices: AuthServices()),
         ),
         BlocProvider(
-          create: (context) => OrderBloc(orderServices: OrderServices(), historyRemoteDataSource: HistoryRemoteDataSource(),),
-        ),
+            create: (context) => OrderBloc(
+                  orderServices: OrderServices(),
+                  historyRemoteDataSource: HistoryRemoteDataSource(),
+                )),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

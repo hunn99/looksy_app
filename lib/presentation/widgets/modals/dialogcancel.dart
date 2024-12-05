@@ -1,41 +1,36 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
 class CancelOrderDialog extends StatelessWidget {
   final VoidCallback onConfirm;
-
-  const CancelOrderDialog({Key? key, required this.onConfirm}) : super(key: key);
+  const CancelOrderDialog({super.key, required this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
+      backgroundColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
-              IconsaxOutline.warning_2,
-              size: 48,
-              color: Colors.red,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              "Cancel Order",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              IconsaxBold.warning_2,
+              size: 24,
+              color: redTheme,
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
+              "Cancel Order",
+              style: heading4Black,
+            ),
+            const SizedBox(height: 4),
+            Text(
               "Are you sure you want to cancel this order?",
+              style: bodyGrey5,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: neutralTheme),
             ),
             const SizedBox(height: 24),
             Row(
@@ -47,16 +42,16 @@ class CancelOrderDialog extends StatelessWidget {
                     Navigator.of(context).pop(); // Tutup dialog
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: redTheme,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(100),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                        horizontal: 48, vertical: 12),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Yes",
-                    style: TextStyle(color: Colors.white),
+                    style: bodyWhite5,
                   ),
                 ),
                 OutlinedButton(
@@ -65,14 +60,15 @@ class CancelOrderDialog extends StatelessWidget {
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(100),
                     ),
+                    side: BorderSide(color: neutralTheme[100]!),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                        horizontal: 48, vertical: 12),
                   ),
-                  child: const Text(
+                  child: Text(
                     "No",
-                    style: TextStyle(color: neutralTheme),
+                    style: bodyBlack5,
                   ),
                 ),
               ],

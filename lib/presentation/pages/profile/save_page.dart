@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:looksy_app/presentation/pages/profile/save_detail.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
-import 'package:looksy_app/presentation/widgets/card/card_tip.dart';
+import 'package:looksy_app/presentation/widgets/card/card_tips.dart';
 
 class SavePage extends StatefulWidget {
   const SavePage({Key? key}) : super(key: key);
@@ -82,7 +82,7 @@ class _SavePageState extends State<SavePage> {
           itemBuilder: (context, index) {
             final hairstyle = hairstyles[index];
             bool isSaved = savedHairstyles.contains(hairstyle);
-            return TipCard(
+            return TipsCard(
               imagePath: hairstyle.imageUrl,
               title: hairstyle.name,
               subtitle: "For ${hairstyle.faceShape} Face",
