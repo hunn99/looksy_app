@@ -27,12 +27,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       (event, emit) async {
         emit(OrderLoading());
 
-        final response = await orderServices.order(OrderDto(
-          date: event.params.date,
-          time: event.params.time,
-          totalPayment: event.params.totalPayment,
-          pickedServices: event.params.pickedServices,
-        ));
+        final response = await orderServices.order(event.params);
 
         response.fold((l) => emit(OrderFailed(errorMessage: l)), (r) {
           _orderHistory.add(r); // Tambahkan order ke daftar riwayat
@@ -44,7 +39,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     // Event untuk membatalkan order
     on<CancelOrderEvent>((event, emit) async {
       emit(OrderLoading());
-      
+
       final response = await historyRemoteDataSource.cancelOrder(event.orderId);
 
       response.fold(
