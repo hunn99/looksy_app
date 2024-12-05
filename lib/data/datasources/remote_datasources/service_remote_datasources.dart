@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:looksy_app/presentation/utils/constants.dart';
+
 
 class ServiceServices {
   // Fungsi untuk mengambil layanan dari database
@@ -15,7 +17,7 @@ class ServiceServices {
       }
 
       // Kirim permintaan ke API
-      final url = Uri.parse('http://192.168.64.142:8000/api/services');
+      final url = Uri.parse('$baseUrl/api/services');
       final response = await http.get(
         url,
         headers: {
