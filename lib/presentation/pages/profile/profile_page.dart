@@ -8,15 +8,16 @@ import 'package:looksy_app/presentation/pages/profile/save_page.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/modals/dialog.dart';
 import 'package:ficonsax/ficonsax.dart';
+import 'package:looksy_app/presentation/widgets/modals/dialogsuccess.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,44 +31,48 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   // Header Profil
                   Container(
-                    width: double.infinity,
                     color: neutralTheme,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 24, horizontal: 24),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(width: 16), // Jarak awal
                         // Foto Profil
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: user.profileImage != null
-                              ? NetworkImage(user.profileImage!)
-                              : null,
-                          child: user.profileImage == null
-                              ? const Icon(Icons.person, size: 50)
-                              : null,
-                        ),
-                        const SizedBox(width: 16),
-                        // Username dan Email
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text(
-                              user.username,
-                              style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
+                            CircleAvatar(
+                              backgroundColor: neutralTheme[200],
+                              radius: 32,
+                              backgroundImage: user.profileImage != null
+                                  ? NetworkImage(user.profileImage!)
+                                  : null,
+                              child: user.profileImage == null
+                                  ? const Icon(Icons.person, size: 50)
+                                  : null,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              user.email,
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.grey[300]),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.username,
+                                  style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  user.email,
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.grey[300]),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        const SizedBox(width: 55),
+                        // Username dan Email
+
                         // Ikon Edit Profil
                         IconButton(
                           icon: const Icon(IconsaxOutline.edit_2,
@@ -84,15 +89,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 30),
-
                   // Daftar Opsi
-                  Expanded(
+                  Container(
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
                         // Container untuk Save, Change Password, dan Help Center
                         Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          // margin: const EdgeInsets.symmetric(horizontal: 20),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -144,14 +148,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 16),
                         Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(color: const Color(0xFFE7E7E7)),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(24),
                           ),
                           child: ProfileOption(
                             icon: const Icon(IconsaxOutline.logout,
@@ -195,7 +199,7 @@ class ProfileOption extends StatelessWidget {
   final bool showArrowIcon;
 
   const ProfileOption({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
@@ -203,7 +207,7 @@ class ProfileOption extends StatelessWidget {
     this.iconColor,
     this.hasDivider = false,
     this.showArrowIcon = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
