@@ -38,7 +38,7 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = <Widget>[
       const HomePage(),
-      TipsPage(),
+      const TipsPage(),
       const HistoryPage(),
       const ProfilePage(),
     ];
