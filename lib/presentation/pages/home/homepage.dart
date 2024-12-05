@@ -11,6 +11,7 @@ import 'package:looksy_app/presentation/widgets/buttons/button.dart';
 import 'package:looksy_app/presentation/widgets/form/date_field.dart';
 import 'package:looksy_app/presentation/widgets/form/hour_field.dart';
 import 'package:looksy_app/presentation/widgets/form/service_field.dart';
+import 'package:looksy_app/presentation/widgets/modals/dialogsuccess.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -178,6 +179,7 @@ class _HomePageState extends State<HomePage> {
                               BlocConsumer<OrderBloc, OrderState>(
                                 listener: (context, state) {
                                   if (state is OrderLoading) {
+                                    print('loading');
                                     showDialog(
                                       context: context,
                                       barrierDismissible: false,
@@ -191,20 +193,16 @@ class _HomePageState extends State<HomePage> {
                                     // Menutup dialog loading sebelum navigasi
                                     Navigator.of(context, rootNavigator: true)
                                         .pop();
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
+                                    print('success');
+                                    showDialog(
+                                        context: context,
                                         builder: (context) =>
-                                            const NavigationPage(
-                                                initialIndex: 2),
-                                      ),
-                                    );
+                                            const SuccessDialog());
                                   }
 
                                   if (state is OrderFailed) {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop(); // Menutup dialog
+                                    // Navigator.of(context, rootNavigator: true)
+                                    //     .pop(); // Menutup dialog
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -214,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                         margin: const EdgeInsets.only(
                                           bottom:
                                               80, // Pastikan margin bawah tidak menabrak FAB
-                                          left: 16, 
+                                          left: 16,
                                           right: 16,
                                         ),
                                         backgroundColor: Colors.red[
