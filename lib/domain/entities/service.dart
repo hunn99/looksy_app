@@ -9,11 +9,12 @@ class Item {
     required this.price,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) {
+  factory Item.fromServiceJson(Map<String, dynamic> json) {
+    final service = json['service'] ?? {};
     return Item(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      price: json['price'] ?? 0,
+      id: service['id'] ?? 0,
+      name: service['name'] ?? '',
+      price: service['price'] ?? 0,
     );
   }
 
