@@ -1,18 +1,16 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
-
 class LogoutDialog extends StatelessWidget {
-  const LogoutDialog({Key? key}) : super(key: key);
+  const LogoutDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
+      backgroundColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -20,22 +18,18 @@ class LogoutDialog extends StatelessWidget {
           children: [
             const Icon(
               IconsaxOutline.logout,
-              size: 48,
-              color: Colors.red,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              "Logout",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              size: 24,
+              color: redTheme,
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
+              "Logout",
+              style: heading4Black,
+            ),
+            const SizedBox(height: 4),
+            Text(
               "Are you sure you want to logout?",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: neutralTheme),
+              style: bodyGrey5,
             ),
             const SizedBox(height: 24),
             Row(
@@ -48,16 +42,16 @@ class LogoutDialog extends StatelessWidget {
                     context.go('/login'); // Navigasi ke halaman login
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: redTheme,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(100),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                        horizontal: 48, vertical: 12),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Yes",
-                    style: TextStyle(color: Colors.white),
+                    style: bodyWhite5,
                   ),
                 ),
                 OutlinedButton(
@@ -66,14 +60,15 @@ class LogoutDialog extends StatelessWidget {
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(100),
                     ),
+                    side: BorderSide(color: neutralTheme[100]!),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                        horizontal: 48, vertical: 12),
                   ),
-                  child: const Text(
+                  child: Text(
                     "No",
-                    style: TextStyle(color: neutralTheme),
+                    style: bodyBlack5,
                   ),
                 ),
               ],
