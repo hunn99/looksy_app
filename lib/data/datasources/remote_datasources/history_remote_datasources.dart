@@ -6,8 +6,6 @@ import 'package:looksy_app/domain/entities/order.dart';
 import 'package:looksy_app/presentation/utils/constants.dart';
 
 class HistoryRemoteDataSource {
-  // final String baseUrl = 'http://192.168.23.251:8000/api';
-
   Future<dartz.Either<String, List<Order>>> getOrderHistory() async {
     final url = Uri.parse('$baseUrl/api/history');
     try {

@@ -6,8 +6,11 @@ import 'package:looksy_app/data/datasources/remote_datasources/order_remote_data
 import 'package:looksy_app/data/datasources/remote_datasources/history_remote_datasources.dart';
 import 'package:looksy_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
+import 'package:looksy_app/presentation/bloc/scan/scan_bloc.dart';
 import 'package:looksy_app/presentation/router/routes.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
+
+import 'data/datasources/remote_datasources/scan_remote_datasources.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
                   orderServices: OrderServices(),
                   historyRemoteDataSource: HistoryRemoteDataSource(),
                 )),
+        BlocProvider(
+          create: (context) => ScanBloc(scanServices: ScanServices()),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

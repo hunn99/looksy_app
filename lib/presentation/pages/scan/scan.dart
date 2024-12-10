@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:looksy_app/presentation/pages/scan/result.dart';
@@ -11,27 +12,31 @@ class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
 
   @override
-  State<ScanPage> createState() => _ScanPageState();
+  ScanPageState createState() => ScanPageState();
 }
 
-class _ScanPageState extends State<ScanPage> {
+class ScanPageState extends State<ScanPage> {
   late CameraController controller;
+  int selectedIndex = 1;
+  bool isCameraInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeCamera();
+  }
 
   Future<void> initializeCamera() async {
-    var cameras = await availableCameras();
+    List<CameraDescription> cameras = await availableCameras();
     controller = CameraController(
-      cameras[
-          1], // Pastikan ini adalah kamera depan jika Anda ingin membalik gambar
-      ResolutionPreset.high,
+      cameras[selectedIndex],
+      ResolutionPreset.ultraHigh,
       enableAudio: false,
     );
     await controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+    setState(() {
+      isCameraInitialized = true;
+    });
   }
 
   Future<File> takePicture() async {
@@ -54,84 +59,90 @@ class _ScanPageState extends State<ScanPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: neutralTheme,
-        body: FutureBuilder(
-            future: initializeCamera(),
-            builder: (_, snapshot) => (snapshot.connectionState ==
-                    ConnectionState.done)
-                ? Column(
+        body: isCameraInitialized
+            ? Column(
+                children: [
+                  Stack(
                     children: [
-                      Stack(
-                        children: [
-                          // Layer untuk CameraPreview
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.width * 1.65,
-                            child: Transform(
-                              alignment: Alignment.center,
-                              transform: Matrix4.rotationY(
-                                  math.pi), // Membalik gambar horizontal
-                              child: CameraPreview(controller),
-                            ),
-                          ),
-                          // Overlay untuk image asset
-                          Positioned.fill(
-                            child: Image.asset(
-                              'assets/images/Subtract.png',
-                              fit: BoxFit.cover, // Mengisi seluruh ukuran
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.width * 1.8,
+                        child: selectedIndex == 1 // Kamera depan
+                            ? Transform(
+                                alignment: Alignment.center,
+                                transform: Matrix4.rotationY(math.pi),
+                                child: CameraPreview(controller),
+                              )
+                            : CameraPreview(
+                                controller), // Kamera belakang tanpa transform
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white, // Warna background luar
-                                border: Border.all(
-                                    color: Colors.black,
-                                    width: 2), // Garis tepi hitam
-                              ),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor:
-                                      Colors.white, // Warna background dalam
-                                  padding: EdgeInsets.all(
-                                      20), // Sesuaikan padding agar ukuran lingkaran sesuai
-                                  elevation: 0, // Menghilangkan bayangan tombol
-                                ),
-                                onPressed: () async {
-                                  if (!controller.value.isTakingPicture) {
-                                    File result = await takePicture();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ResultPage(
-                                          images: result,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: null,
-                              ),
-                            ),
-                          ],
+                      Positioned.fill(
+                        child: Image.asset(
+                          'assets/images/Subtract.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ],
-                  )
-                : Center(
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: const CircularProgressIndicator(),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          iconSize: 40,
+                          icon: const Icon(IconsaxOutline.arrow_left,
+                              color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Container(
+                          width: 60,
+                          height: 60,
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: neutralTheme[100]!,
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              backgroundColor: Colors.white,
+                              elevation: 0,
+                            ),
+                            onPressed: () async {
+                              if (!controller.value.isTakingPicture) {
+                                File result = await takePicture();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ResultPage(
+                                      images: result,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: null,
+                          ),
+                        ),
+                        IconButton(
+                          iconSize: 40,
+                          icon: const Icon(IconsaxOutline.refresh_circle,
+                              color: Colors.white),
+                          onPressed: () async {
+                            await controller.dispose();
+                            selectedIndex = selectedIndex == 0 ? 1 : 0;
+                            await initializeCamera();
+                          },
+                        ),
+                      ],
                     ),
-                  )),
+                  ),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

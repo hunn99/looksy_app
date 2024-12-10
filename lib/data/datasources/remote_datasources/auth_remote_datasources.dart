@@ -8,9 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:looksy_app/presentation/utils/constants.dart';
 
 class AuthServices {
-  // final String baseUrl =
-  //     'http://192.168.23.251:8000/api'; // Gunakan base URL yang konsisten
-
   // Fungsi untuk mendaftarkan pengguna baru
   Future<Either<String, User>> register(RegisterDto params) async {
     final url = Uri.parse('$baseUrl/api/register');

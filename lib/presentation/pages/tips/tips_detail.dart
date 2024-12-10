@@ -40,33 +40,32 @@ class TipsDetailPage extends StatelessWidget {
               Container(
                 color: neutralTheme,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 40),
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         imagePath,
                         height: 220,
-                        width: 170,
+                        width: 160,
                         fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(width: 24),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            subtitle,
-                            style: bodyGrey2,
-                          ),
-                          Text(
-                            title,
-                            style: heading4White,
-                          ),
-                        ],
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          subtitle,
+                          style: bodyGrey2,
+                        ),
+                        Text(
+                          title,
+                          style: heading4White,
+                        ),
+                      ],
                     ),
                   ],
                 ),
