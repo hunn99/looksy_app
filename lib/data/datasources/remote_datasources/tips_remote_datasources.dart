@@ -5,8 +5,6 @@ import 'package:looksy_app/presentation/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TipsServices {
-  // final baseUrl = 'http://192.168.23.251:8000/storage';
-
   // Fungsi untuk mengambil daftar tips perawatan rambut dari API
   Future<List<Map<String, dynamic>>> fetchHairTips() async {
     try {
