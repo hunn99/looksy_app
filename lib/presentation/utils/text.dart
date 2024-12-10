@@ -58,6 +58,14 @@ TextStyle heading4Black = TextStyle(
   letterSpacing: 0,
 );
 
+TextStyle heading5White = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
+  fontWeight: fontWeight["Medium"],
+  fontSize: 20,
+  letterSpacing: -1,
+);
+
 TextStyle heading4White = TextStyle(
   fontFamily: typeFace,
   color: Colors.white,
