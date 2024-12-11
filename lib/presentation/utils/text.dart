@@ -42,12 +42,28 @@ TextStyle heading3Black = TextStyle(
   letterSpacing: 0,
 );
 
+TextStyle headingBlack = TextStyle(
+  fontFamily: typeFace,
+  color: neutralTheme,
+  fontWeight: fontWeight["Bold"],
+  fontSize: 28,
+  letterSpacing: -1,
+);
+
 TextStyle heading3White = TextStyle(
   fontFamily: typeFace,
   color: Colors.white,
   fontWeight: fontWeight["Bold"],
   fontSize: 24,
   letterSpacing: 0,
+);
+
+TextStyle headingWhite = TextStyle(
+  fontFamily: typeFace,
+  color: Colors.white,
+  fontWeight: fontWeight["SemiBold"],
+  fontSize: 24,
+  letterSpacing: -1,
 );
 
 TextStyle heading4Black = TextStyle(
