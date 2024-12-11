@@ -49,7 +49,7 @@ class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
                       borderRadius: BorderRadius.circular(24),
                       image: DecorationImage(
                         image: NetworkImage(widget.hairstyle.photo),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -65,7 +65,7 @@ class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
                           widget.hairstyle.faceShape,
                           style: heading3White,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         Text('Hairstyle', style: bodyGrey2),
                         const SizedBox(height: 4),
                         Text(
@@ -82,7 +82,7 @@ class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
                 child: Container(
               width: double.infinity,
               color: Colors.white,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Expanded(

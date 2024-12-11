@@ -1,10 +1,10 @@
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looksy_app/presentation/bloc/order/order_bloc.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 import 'package:looksy_app/presentation/widgets/card/card_history.dart';
+import 'package:looksy_app/presentation/widgets/empthy/noOrder.dart';
 import 'package:looksy_app/presentation/widgets/modals/dialogcancel.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -57,7 +57,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     itemCount: state.order.length,
                     itemBuilder: (context, index) {
                       final order = state.order[index];
-                      print("Order Data: ${order.toJson()}");
+                      // print("Order Data: ${order.toJson()}");
                       return Column(
                         children: [
                           HistoryCard(
@@ -97,29 +97,4 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 }
 
-class NoOrdersFound extends StatelessWidget {
-  const NoOrdersFound({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            IconsaxBold.clipboard,
-            size: 80,
-            color: neutralTheme[200]!,
-          ),
-          const SizedBox(height: 8),
-          Text('No Orders Found', style: heading4Black),
-          const SizedBox(height: 4),
-          Text(
-            'There Are No Ongoing Orders At The Moment',
-            style: bodyGrey2,
-          ),
-        ],
-      ),
-    );
-  }
-}
