@@ -46,6 +46,53 @@ class LargeFillButton extends StatelessWidget {
   }
 }
 
+class LargeOutlineButton extends StatelessWidget {
+  final String label;
+  final double? width;
+  final VoidCallback? onPressed;
+  final bool isDisabled;
+  final bool isLoading;
+
+  const LargeOutlineButton({
+    super.key,
+    required this.label,
+    this.width,
+    this.onPressed,
+    this.isDisabled = false,
+    this.isLoading = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: isDisabled || isLoading ? null : onPressed,
+      child: Container(
+        height: 48,
+        width: width ?? double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(
+            color:
+                (isDisabled || isLoading) ? neutralTheme[300]! : neutralTheme,
+          ),
+        ),
+        child: Center(
+          child: isLoading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                )
+              : Text(
+                  label,
+                  style: bodyBlack1,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
 class LargeFillButtonWhite extends StatelessWidget {
   final String label;
   final double? width;
