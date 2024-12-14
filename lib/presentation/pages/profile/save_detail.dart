@@ -81,7 +81,7 @@ class _HairstyleDetailPageState extends State<HairstyleDetailPage> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.imageUrl,
                       height: 200,
                       fit: BoxFit.cover,
