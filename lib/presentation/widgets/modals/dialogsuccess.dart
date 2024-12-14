@@ -1,13 +1,7 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:looksy_app/presentation/pages/navigation/navigation.dart';
-import 'package:looksy_app/presentation/pages/onboarding/login.dart';
 import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
-
-import '../../bloc/order/order_bloc.dart';
 
 class SuccessDialog extends StatelessWidget {
   const SuccessDialog({super.key});
