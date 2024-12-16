@@ -195,6 +195,7 @@ class _HomePageState extends State<HomePage> {
                                         .pop();
                                     print('success');
                                     showDialog(
+                                        barrierDismissible: false,
                                         context: context,
                                         builder: (context) =>
                                             const SuccessDialog());

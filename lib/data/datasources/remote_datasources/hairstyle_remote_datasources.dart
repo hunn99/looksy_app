@@ -23,6 +23,7 @@ class HairstyleRemoteDatasources {
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body)['data'];
         final hairstyles = data.map((e) => HairStyle.fromJson(e)).toList();
+        print(data);
         return dartz.Right(hairstyles);
       } else {
         return dartz.Left(jsonDecode(response.body)['error']);

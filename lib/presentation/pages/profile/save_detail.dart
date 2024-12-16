@@ -1,123 +1,84 @@
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter/material.dart';
+import 'package:looksy_app/domain/entities/hairstyle.dart';
+import 'package:looksy_app/presentation/utils/text.dart';
 import 'package:looksy_app/presentation/utils/theme.dart';
 
-class HairstyleDetailPage extends StatefulWidget {
-  final String faceShape;
-  final String hairstyleName;
-  final String imageUrl;
-  final String characteristics;
-  final String faceSuitability;
-  final String maintenance;
-  final String impression;
-
-  const HairstyleDetailPage({
-    Key? key,
-    required this.faceShape,
-    required this.hairstyleName,
-    required this.imageUrl,
-    required this.characteristics,
-    required this.faceSuitability,
-    required this.maintenance,
-    required this.impression,
-  }) : super(key: key);
+class SaveDetailPage extends StatefulWidget {
+  final HairStyle hairstyle;
+  const SaveDetailPage({super.key, required this.hairstyle});
 
   @override
-  _HairstyleDetailPageState createState() => _HairstyleDetailPageState();
+  State<SaveDetailPage> createState() => SaveDetailPageState();
 }
 
-class _HairstyleDetailPageState extends State<HairstyleDetailPage> {
-  bool isSaved = false; // Status penyimpanan gaya rambut
-
-  @override
-  void initState() {
-    super.initState();
-    // Cek apakah gaya rambut sudah disimpan atau belum
-    isSaved = savedHairstyles.contains(widget.hairstyleName);
-  }
-
-  void toggleSave() {
-    setState(() {
-      isSaved = !isSaved;
-      if (isSaved) {
-        savedHairstyles.add(widget.hairstyleName);
-      } else {
-        savedHairstyles.remove(widget.hairstyleName);
-      }
-    });
-  }
-
+class SaveDetailPageState extends State<SaveDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: neutralTheme,
-        leading: IconButton(
-          icon: const Icon(IconsaxOutline.arrow_left, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              isSaved ? IconsaxOutline.archive_1 : IconsaxBold.archive_1,
-              size: 24.0,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text(
+            'Hairstyle Detail',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: neutralTheme,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              IconsaxOutline.arrow_left,
               color: Colors.white,
             ),
-            onPressed: toggleSave, // Fungsi untuk menyimpan atau menghapus
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        body: Column(
           children: [
             Container(
+              padding: const EdgeInsets.all(24),
+              height: 240,
+              width: double.infinity,
               color: neutralTheme,
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
               child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      widget.imageUrl,
-                      height: 200,
-                      fit: BoxFit.cover,
+                  Container(
+                    height: double.infinity,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      image: DecorationImage(
+                        image: NetworkImage(widget.hairstyle.photo),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Face Shape",
-                          style: TextStyle(
-                              fontSize: 14, color: neutralTheme[300]!),
+                          style: bodyGrey2,
                         ),
+                        const SizedBox(height: 4),
                         Text(
-                          widget.faceShape,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          widget.hairstyle.faceShape,
+                          style: heading3White,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 8),
                         Text(
                           "Hairstyle",
-                          style: TextStyle(
-                              fontSize: 14, color: neutralTheme[300]!),
+                          style: bodyGrey2,
                         ),
+                        const SizedBox(height: 4),
                         Text(
-                          widget.hairstyleName,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          widget.hairstyle.hairStyle,
+                          style: heading3White,
                         ),
                       ],
                     ),
@@ -125,39 +86,74 @@ class _HairstyleDetailPageState extends State<HairstyleDetailPage> {
                 ],
               ),
             ),
-            _buildSection(
-                title: "Characteristics", content: widget.characteristics),
-            _buildSection(
-                title: "Face Suitability", content: widget.faceSuitability),
-            _buildSection(title: "Maintenance", content: widget.maintenance),
-            _buildSection(title: "Impression", content: widget.impression),
-            const SizedBox(height: 24.0),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                color: Colors.white,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Characteristics',
+                              style: bodyGrey2,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.hairstyle.characteristics,
+                              style: heading4Black,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Face Suitability',
+                              style: bodyGrey2,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.hairstyle.faceSuitability,
+                              style: heading4Black,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Maintenance',
+                              style: bodyGrey2,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.hairstyle.maintenance,
+                              style: heading4Black,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              'Impression',
+                              style: bodyGrey2,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.hairstyle.impression,
+                              style: heading4Black,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildSection({required String title, required String content}) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 14, color: neutralTheme[300]!),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            content,
-            style: const TextStyle(fontSize: 18, color: neutralTheme),
-          ),
-        ],
-      ),
-    );
-  }
 }
-
-List<String> savedHairstyles =
-    []; // Daftar untuk menyimpan gaya rambut yang disave

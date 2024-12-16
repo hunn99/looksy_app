@@ -93,14 +93,14 @@ class AuthServices {
     final id = prefs.getInt('user_id');
     final username = prefs.getString('username');
     final email = prefs.getString('email');
-    final profileImage = prefs.getString('profile_image'); // Ambil URL gambar
+    final photo = prefs.getString('profile_image'); // Ambil URL gambar
 
     if (username != null && email != null) {
       return User(
         id: id ?? 0,
         username: username,
         email: email,
-        profileImage: profileImage,
+        photo: photo ?? '',
       );
     }
     return null; // Jika data tidak ditemukan
@@ -110,7 +110,7 @@ class AuthServices {
   Future<Either<String, User>> updateProfile({
     required String username,
     required String email,
-    String? profileImagePath,
+    String? photoPath,
   }) async {
     final url = Uri.parse('$baseUrl/api/update-profile');
 
@@ -125,10 +125,10 @@ class AuthServices {
         ..fields['email'] = email;
 
       // Tambahkan file gambar jika ada
-      if (profileImagePath != null) {
+      if (photoPath != null) {
         request.files.add(await http.MultipartFile.fromPath(
           'profile_image',
-          profileImagePath,
+          photoPath,
         ));
       }
 
@@ -140,8 +140,8 @@ class AuthServices {
         // Perbarui data di SharedPreferences
         await prefs.setString('username', updatedUser.username);
         await prefs.setString('email', updatedUser.email);
-        if (updatedUser.profileImage != null) {
-          await prefs.setString('profile_image', updatedUser.profileImage!);
+        if (updatedUser.photo != null) {
+          await prefs.setString('profile_image', updatedUser.photo!);
         }
         return Right(updatedUser);
       } else {
