@@ -2,13 +2,13 @@ class User {
   final int id;
   final String username;
   final String email;
-  final String? profileImage; // URL gambar profil
+  final String? photo; // URL gambar profil
 
   User({
     required this.id,
     required this.username,
     required this.email,
-    this.profileImage,
+    this.photo,
   });
 
   // Factory method to create an instance from JSON
@@ -17,7 +17,8 @@ class User {
       id: json['id'] as int,
       username: json['username'] as String,
       email: json['email'] as String,
-      profileImage: json['profile_image'] as String?, // Pastikan backend mengirim URL gambar
+      photo: json['profile_image']
+          as String?, // Pastikan backend mengirim URL gambar
     );
   }
 
@@ -27,7 +28,7 @@ class User {
       'id': id,
       'username': username,
       'email': email,
-      'profile_image': profileImage,
+      'profile_image': photo,
     };
   }
 
@@ -36,13 +37,13 @@ class User {
     int? id,
     String? username,
     String? email,
-    String? profileImage,
+    String? photo,
   }) {
     return User(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
-      profileImage: profileImage ?? this.profileImage,
+      photo: photo ?? this.photo,
     );
   }
 }

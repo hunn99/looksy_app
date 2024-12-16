@@ -43,11 +43,8 @@ class ProfilePageState extends State<ProfilePage> {
                             CircleAvatar(
                               backgroundColor: neutralTheme[200],
                               radius: 32,
-                              backgroundImage: user.profileImage != null
-                                  ? NetworkImage(user.profileImage!)
-                                  : null,
-                              child: user.profileImage == null
-                                  ? const Icon(Icons.person, size: 50)
+                              child: user.photo == null
+                                  ? Image.asset('assets/images/Avatar.png')
                                   : null,
                             ),
                             const SizedBox(width: 16),
@@ -74,18 +71,18 @@ class ProfilePageState extends State<ProfilePage> {
                         // Username dan Email
 
                         // Ikon Edit Profil
-                        IconButton(
-                          icon: const Icon(IconsaxOutline.edit_2,
-                              size: 24, color: Colors.white),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const EditProfilePage(),
-                              ),
-                            );
-                          },
-                        ),
+                        // IconButton(
+                        //   icon: const Icon(IconsaxOutline.edit_2,
+                        //       size: 24, color: Colors.white),
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => const EditProfilePage(),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -118,20 +115,20 @@ class ProfilePageState extends State<ProfilePage> {
                                 },
                                 hasDivider: true,
                               ),
-                              ProfileOption(
-                                icon: const Icon(IconsaxBold.shield_security,
-                                    size: 24, color: neutralTheme),
-                                title: 'Change Password',
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChangePasswordPage()),
-                                  );
-                                },
-                                hasDivider: true,
-                              ),
+                              // ProfileOption(
+                              //   icon: const Icon(IconsaxBold.shield_security,
+                              //       size: 24, color: neutralTheme),
+                              //   title: 'Change Password',
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //           builder: (context) =>
+                              //               ChangePasswordPage()),
+                              //     );
+                              //   },
+                              //   hasDivider: true,
+                              // ),
                               ProfileOption(
                                 icon: const Icon(IconsaxBold.message_question,
                                     size: 24, color: neutralTheme),

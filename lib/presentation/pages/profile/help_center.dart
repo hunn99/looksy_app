@@ -127,18 +127,18 @@ class HelpCenterPage extends StatelessWidget {
                           },
                           hasDivider: true,
                         ),
-                        HelpCenterOption(
-                          title: 'How To Change A Password',
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      HowToChangePasswordPage()),
-                            );
-                          },
-                          hasDivider: false,
-                        ),
+                        // HelpCenterOption(
+                        //   title: 'How To Change A Password',
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) =>
+                        //               HowToChangePasswordPage()),
+                        //     );
+                        //   },
+                        //   hasDivider: false,
+                        // ),
                       ],
                     ),
                   ),

@@ -64,7 +64,7 @@ class EditProfilePageState extends State<EditProfilePage> {
     final result = await authService.updateProfile(
       username: _nameController.text,
       email: _emailController.text,
-      profileImagePath: _image?.path,
+      photoPath: _image?.path,
     );
 
     result.fold(
@@ -120,15 +120,14 @@ class EditProfilePageState extends State<EditProfilePage> {
                           backgroundImage: _image != null
                               ? FileImage(
                                   _image!) // Gambar dari file yang dipilih
-                              : (state.user.profileImage != null
-                                  ? NetworkImage(state.user
-                                      .profileImage!) // Gambar dari backend
+                              : (state.user.photo != null
+                                  ? NetworkImage(
+                                      state.user.photo!) // Gambar dari backend
                                   : null),
-                          child:
-                              _image == null && state.user.profileImage == null
-                                  ? const Icon(Icons.person,
-                                      size: 50) // Ikon default
-                                  : null,
+                          child: _image == null && state.user.photo == null
+                              ? const Icon(Icons.person,
+                                  size: 50) // Ikon default
+                              : null,
                         ),
                         Positioned(
                           bottom: 0,

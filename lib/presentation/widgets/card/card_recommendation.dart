@@ -28,7 +28,7 @@ class HairstyleItem extends StatelessWidget {
         width: 174,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: neutralTheme[900],
+          color: neutralTheme,
           border: Border.all(
             color: isSelected
                 ? Colors.white

@@ -14,10 +14,10 @@ class HairStyleDetailPage extends StatefulWidget {
   const HairStyleDetailPage({super.key, required this.hairstyle});
 
   @override
-  State<HairStyleDetailPage> createState() => _HairStyleDetailPageState();
+  State<HairStyleDetailPage> createState() => HairStyleDetailPageState();
 }
 
-class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
+class HairStyleDetailPageState extends State<HairStyleDetailPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,14 +62,20 @@ class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Face Shape', style: bodyGrey2),
+                        Text(
+                          'Face Shape',
+                          style: bodyGrey2,
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           widget.hairstyle.faceShape,
                           style: heading3White,
                         ),
                         const SizedBox(height: 8),
-                        Text('Hairstyle', style: bodyGrey2),
+                        Text(
+                          'Hairstyle',
+                          style: bodyGrey2,
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           widget.hairstyle.hairStyle,
@@ -148,17 +154,27 @@ class _HairStyleDetailPageState extends State<HairStyleDetailPage> {
             ),
             BlocConsumer<HairstyleBloc, HairstyleState>(
               listener: (context, state) {
+                if (state is HairstyleLoading) {
+                  showDialog(
+                    context: context,
+                    builder: (_) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
                 if (state is HairstyleSuccess) {
+                  print(state.hairstyle);
                   print(state.buttonType);
                   if (state.buttonType == 'save') {
                     showDialog(
                       context: context,
-                      builder: (_) => SaveDialog(),
+                      builder: (_) => const SaveDialog(),
                     );
                   } else if (state.buttonType == 'save_booking') {
                     showDialog(
                       context: context,
-                      builder: (_) => SaveBookingDialog(),
+                      builder: (_) => const SaveBookingDialog(),
                     );
                   }
                 }
